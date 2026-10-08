@@ -2,6 +2,8 @@ gpu_set_texfilter(false);
 draw_set_font(DebugFont);
 draw_set_halign(fa_center);
 
+c_slime = #19665A;
+
 // Public Variables
 maxRoomWidth = 16;
 maxRoomHeight = 16;

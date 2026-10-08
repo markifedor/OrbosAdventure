@@ -1,5 +1,9 @@
 function canMoveToTargetTile(controller, player){
     with (player){
+        if (array_equals(targetTilePos, pos)){
+            return false;
+        }
+        
         var targetTile = controller.tiles[# targetTilePos[0], targetTilePos[1]]
         if (typeof(targetTile) != "struct"){
             return false;
@@ -7,9 +11,9 @@ function canMoveToTargetTile(controller, player){
         
         if (targetTile[$ "properties"][$ "blockMovement"] == true){
             return false;
-        }    
+        }
     }
-    return true; 
+    return true;
 }
 
 function handleTargetTile(controller, player){

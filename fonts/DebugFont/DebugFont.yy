@@ -119,8 +119,8 @@
   "maintainGms1Font":false,
   "name":"DebugFont",
   "parent":{
-    "name":"RPG Starter Pack",
-    "path":"RPG Starter Pack.yyp",
+    "name":"Fonts",
+    "path":"folders/Fonts.yy",
   },
   "pointRounding":0,
   "ranges":[

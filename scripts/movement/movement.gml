@@ -5,7 +5,7 @@ function move_to_tile(controller, _inst) {
     with (_inst) {
         is_moving = true;
         move_timer = 0;
-        move_duration = 15;
+        move_duration = 12;
         curve_asset = Curve_Move;
         
         start_x = x;
@@ -40,7 +40,7 @@ function update_tile_movement(controller, _inst) {
             handleCurrentTile(controller, id);
         }
         
-        if (move_timer == int64(move_duration*.6)){
+        if (move_timer == int64(move_duration*.7)){
             // Trigger in mechanics
             handleTargetTile(controller, id);
         }

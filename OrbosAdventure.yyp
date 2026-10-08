@@ -10,6 +10,8 @@
   },
   "defaultScriptType":1,
   "Folders":[
+    {"$GMFolder":"","%Name":"Curves","folderPath":"folders/Curves.yy","name":"Curves","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Fonts","folderPath":"folders/Fonts.yy","name":"Fonts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Rooms","folderPath":"folders/Rooms.yy","name":"Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Scripts","folderPath":"folders/Scripts.yy","name":"Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -35,6 +37,7 @@
   "resources":[
     {"id":{"name":"Curve_Move","path":"animcurves/Curve_Move/Curve_Move.yy",},},
     {"id":{"name":"DebugFont","path":"fonts/DebugFont/DebugFont.yy",},},
+    {"id":{"name":"SlimeNumberFont","path":"fonts/SlimeNumberFont/SlimeNumberFont.yy",},},
     {"id":{"name":"ReadMe","path":"notes/ReadMe/ReadMe.yy",},},
     {"id":{"name":"Obj_Controller","path":"objects/Obj_Controller/Obj_Controller.yy",},},
     {"id":{"name":"Obj_Player","path":"objects/Obj_Player/Obj_Player.yy",},},
@@ -48,7 +51,6 @@
     {"id":{"name":"handleCurrentTile","path":"scripts/handleCurrentTile/handleCurrentTile.yy",},},
     {"id":{"name":"handleTargetTile","path":"scripts/handleTargetTile/handleTargetTile.yy",},},
     {"id":{"name":"movement","path":"scripts/movement/movement.yy",},},
-    {"id":{"name":"spr_lava","path":"sprites/spr_lava/spr_lava.yy",},},
     {"id":{"name":"spr_player_idle_down","path":"sprites/spr_player_idle_down/spr_player_idle_down.yy",},},
     {"id":{"name":"spr_player_idle_left","path":"sprites/spr_player_idle_left/spr_player_idle_left.yy",},},
     {"id":{"name":"spr_player_idle_right","path":"sprites/spr_player_idle_right/spr_player_idle_right.yy",},},
@@ -57,6 +59,7 @@
     {"id":{"name":"spr_player_walk_left","path":"sprites/spr_player_walk_left/spr_player_walk_left.yy",},},
     {"id":{"name":"spr_player_walk_right","path":"sprites/spr_player_walk_right/spr_player_walk_right.yy",},},
     {"id":{"name":"spr_player_walk_up","path":"sprites/spr_player_walk_up/spr_player_walk_up.yy",},},
+    {"id":{"name":"spr_slime_meter","path":"sprites/spr_slime_meter/spr_slime_meter.yy",},},
     {"id":{"name":"spr_tileset","path":"sprites/spr_tileset/spr_tileset.yy",},},
     {"id":{"name":"TileSet1","path":"tilesets/TileSet1/TileSet1.yy",},},
   ],

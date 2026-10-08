@@ -5,6 +5,25 @@
 image_xscale = (steps+3)/max_steps;
 image_yscale = image_xscale;
 
+
+keyPressed = false;
+var dirPressed = [ 
+    keyboard_check_released(ord("D")) - keyboard_check_released(ord("A")),
+    keyboard_check_released(ord("S")) - keyboard_check_released(ord("W"))
+];
+
+if (!array_equals(dirPressed, [0, 0])) {
+    keyPressed = true;
+}
+if (dirPressed[0] != 0){
+    dirPressed[1] = 0; // prevent diagonal movement
+}
+
+if (keyPressed){
+    ds_queue_enqueue(moveBuffer, dirPressed);
+    show_debug_message($"Inputted {dirPressed}");
+}
+
 if(is_moving){
     update_tile_movement(controller, id);
     return;
@@ -13,24 +32,17 @@ if(is_moving){
 if (steps == 0) {
     controller.roomFailed = true;
     instance_destroy();
-}
-
-var dir = [ 
-    keyboard_check_released(ord("D")) - keyboard_check_released(ord("A")),
-    keyboard_check_released(ord("S"))-keyboard_check_released(ord("W"))
-];
-
-if (array_equals(dir, [0, 0])) {
     return;
 }
-else if (dir[0] != 0){
-    dir[1] = 0; // prevent diagonal movement
-}
 
+var dir = [0, 0];
+if (ds_queue_size(moveBuffer) > 0){
+    dir = ds_queue_dequeue(moveBuffer);
+}
 
 targetTilePos = [pos[0]+dir[0], pos[1]+dir[1]];
 if(canMoveToTargetTile(controller, id)) {
-    show_debug_message($"Moving to tile {targetTilePos}");
+    //show_debug_message($"Moving to tile {targetTilePos}");
     move_to_tile(controller, id);
 }
 else {

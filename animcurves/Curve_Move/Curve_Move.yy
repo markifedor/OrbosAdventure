@@ -12,8 +12,8 @@
   "function":2,
   "name":"Curve_Move",
   "parent":{
-    "name":"RPG Starter Pack",
-    "path":"RPG Starter Pack.yyp",
+    "name":"Curves",
+    "path":"folders/Curves.yy",
   },
   "resourceType":"GMAnimCurve",
   "resourceVersion":"2.0",
