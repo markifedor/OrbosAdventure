@@ -5,7 +5,7 @@ function move_to_tile(controller, _inst) {
     with (_inst) {
         is_moving = true;
         move_timer = 0;
-        move_duration = 12;
+        move_duration = 15;
         curve_asset = Curve_Move;
         
         start_x = x;
@@ -35,14 +35,19 @@ function update_tile_movement(controller, _inst) {
         x = lerp(start_x, target_x, _curve_val);
         y = lerp(start_y, target_y, _curve_val);
         
-        if (move_timer == int64(move_duration/3)){
+        if (move_timer == int64(move_duration*.1)){
             // Trigger out mechanics
             handleCurrentTile(controller, id);
         }
         
-        if (move_timer == int64(move_duration*.7)){
+        if (move_timer == int64(move_duration*.4)){
             // Trigger in mechanics
             handleTargetTile(controller, id);
+        }
+        
+        if (move_timer == int64(move_duration*.7)){
+            // Trigger sliming
+            handleSlimingIn(controller, id);
         }
         
         if (_progress >= 1.0) {
@@ -50,6 +55,7 @@ function update_tile_movement(controller, _inst) {
             y = target_y;
             is_moving = false;
             pos = targetTilePos;
+            handleSelfUpdatingTiles(controller, id);
         }
     }
 }

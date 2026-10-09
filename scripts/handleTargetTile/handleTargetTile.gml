@@ -18,6 +18,7 @@ function canMoveToTargetTile(controller, player){
 
 function handleTargetTile(controller, player){
     with (player) {
+        // Obtain Tile
         var targetTile = controller.tiles[# targetTilePos[0], targetTilePos[1]]
         if (!canMoveToTargetTile(controller, player)){
             return
@@ -37,6 +38,8 @@ function handleTargetTile(controller, player){
         var props = targetTile[$ "properties"]
         var overlayProps
         
+        
+        // Check Properties of Tile
         var ignoreSteps = false
         
         if (overlayExists){
@@ -47,7 +50,6 @@ function handleTargetTile(controller, player){
         if (!is_undefined(props[$ "stepsIn"]) and !ignoreSteps){
             player.steps += props[$ "stepsIn"]
         }
-        
         
         var convertOnIn = props[$ "convertOnIn"]
         if (!is_undefined(convertOnIn)){
@@ -63,24 +65,40 @@ function handleTargetTile(controller, player){
             tilemap_set(controller._tilemap_id, newLook, targetTilePos[0], targetTilePos[1])
         }
         
-        var slimedIn = props[$ "slimedIn"]
-        if (overlayExists){
-            var overlaySlimedIn = overlayProps[$ "slimedIn"]
-            if (!is_undefined(overlaySlimedIn)){
-                slimedIn = overlaySlimedIn // Overlay determines Sliming properties
-            }
-        }
-        
-        if(!is_undefined(slimedIn) and slimedIn){
-            controller.overlayTiles[# targetTilePos[0], targetTilePos[1]] = controller._csv_to_tile_struct[$ "L"]
-            currentOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]]
-            tilemap_set(controller._overlay_tilemap_id, currentOverlayTile[$ "look"], targetTilePos[0], targetTilePos[1])
-        }
-        
+        // Handle Level Finish
         if (!is_undefined(props[$ "finish"]) and props[$ "finish"] == true){
             controller.roomFinished = true
         }
         
         return true
     }
+}
+
+function handleSlimingIn(controller, player){
+    with (player) {
+        var targetTile = controller.tiles[# targetTilePos[0], targetTilePos[1]];
+        var props = targetTile[$ "properties"];
+        
+        var targetOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]];
+        var overlayProps = targetOverlayTile[$ "properties"]
+        
+        var overlayExists = false
+        if (typeof(targetOverlayTile) == "struct"){
+            overlayExists = true
+        }
+        
+        var slimedIn = props[$ "slimedIn"];
+        if (overlayExists){
+            var overlaySlimedIn = overlayProps[$ "slimedIn"];
+            if (!is_undefined(overlaySlimedIn)){
+                slimedIn = overlaySlimedIn; // Overlay determines Sliming properties
+            }
+        }
+        
+        if(!is_undefined(slimedIn) and slimedIn){
+            controller.overlayTiles[# targetTilePos[0], targetTilePos[1]] = controller._csv_to_tile_struct[$ "L"];
+            currentOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]];
+            tilemap_set(controller._overlay_tilemap_id, currentOverlayTile[$ "look"], targetTilePos[0], targetTilePos[1]);
+        }
+    } 
 }

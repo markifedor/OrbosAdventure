@@ -1,30 +1,3 @@
-if (room == DefaultRoom){
-    displayTextWithOverlay("You beat all the levels in this beta! Thanks for playing!")
-    return
-}
-
-if (instance_exists(player)){
-    draw_sprite(spr_slime_meter, 0, view_wport/2, 80);
-    draw_set_font(SlimeNumberFont);
-    if (player.steps <= 1){
-        draw_set_color(c_red);
-    } else if (player.steps == 2){
-        draw_set_color(c_orange);
-    } else if (player.steps == 3){
-        draw_set_color(c_yellow);
-    } else{
-        draw_set_colour(c_slime);   
-    }
-    draw_text(view_wport/2, 80, $"{instance_exists(player) ? player.steps : 0}")
-    draw_set_colour(c_white);
-    draw_set_font(DebugFont);
-}
-
-
-if (room == Room1) {
-    draw_text(view_wport/2, 200, "Move with the W, A, S, D keys")
-}
-
 if (room_jump_debug_on) {
     // Only keep numeric digits typed by the user
     room_jump_input_buffer = string_digits(keyboard_string)
@@ -56,6 +29,36 @@ if (room_jump_debug_on) {
     if (keyboard_check_pressed(vk_escape)) {
         room_jump_debug_on = false
     }
+}
+
+if (room == DefaultRoom){
+    displayTextWithOverlay("You beat all the levels in this beta! Thanks for playing! \n\n Press R to go to level 1. \n\n Press B and input a room number to go to any level")
+    return
+}
+
+if (instance_exists(player)){
+    draw_sprite(spr_slime_meter, 0, view_wport/2, 80);
+    draw_set_font(SlimeNumberFont);
+    if (player.steps <= 1){
+        draw_set_color(c_red);
+    } else if (player.steps == 2){
+        draw_set_color(c_orange);
+    } else if (player.steps == 3){
+        draw_set_color(c_yellow);
+    } else{
+        draw_set_colour(c_slime);   
+    }
+    draw_text(view_wport/2, 80, $"{instance_exists(player) ? player.steps : 0}")
+    draw_set_colour(c_white);
+    draw_set_font(DebugFont);
+}
+
+
+if (room == Room1) {
+    draw_text(view_wport/2, 200, "Move with the W, A, S, D keys")
+}
+if (room == Room5) {
+    draw_text(view_wport/2, 200, "Press R to restart the level")
 }
 
 if (roomFailed) {

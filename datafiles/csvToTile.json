@@ -3,9 +3,9 @@
         "name": "normal",
         "look": 3,
         "properties": {
-            "stepsOut": -1,
-            "slimedIn": false,
-            "slimedOut": true
+            "stepsIn": -1,
+            "slimedIn": true,
+            "slimedOut": false
         }
     },
     "X": {
@@ -19,9 +19,9 @@
         "name": "shallow water",
         "look": 2,
         "properties": {
-            "stepsIn": 2,
+            "stepsIn": 1,
             "convertOnIn": "O",
-            "slimedIn": false,
+            "slimedIn": true,
             "slimedOut": false
         }
     },
@@ -30,9 +30,9 @@
         "look": 1,
         "properties": {
             "stepsIn": 1,
-            "convertOnIn": 6,
+            "convertOnIn": "O",
             "finish": true,
-            "slimedIn": false,
+            "slimedIn": true,
             "slimedOut": false
         }
     },
@@ -40,10 +40,29 @@
         "name": "start",
         "look": 3,
         "properties": {
-            "stepsOut": -1,
             "start": true,
             "slimedIn": false,
-            "slimedOut": true
+            "slimedOut": false
+        }
+    },
+    "D": {
+        "name": "door",
+        "look": 6,
+        "properties": {
+            "blockMovement": true,
+            "convertOnStepCount": "d",
+            "stepCount": -1,
+            "stepCountVisible": true
+        }
+    },
+    "d": {
+        "name": "opened door",
+        "look": 7,
+        "properties": {
+            "ignoreSteps": true,
+            "convertOnNotStepCount": "D",
+            "stepCount": -1,
+            "stepCountVisible": false
         }
     },
     "L": {
