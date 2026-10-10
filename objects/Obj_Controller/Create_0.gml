@@ -29,10 +29,11 @@ roomFailed = false;
 selfUpdatingTilesCoords = ds_list_create();
 
 roomLabelTileCoords = undefined;
-roomNum = string_digits(room_get_name(room));
-roomNumOnes = roomNum mod 10;
-roomNumTens = roomNum div 10;
-
+if (room != DefaultRoom){
+    roomNum = string_digits(room_get_name(room));
+    roomNumOnes = roomNum mod 10;
+    roomNumTens = roomNum div 10;
+}
 // Debug
 room_jump_debug_on = false;
 room_jump_input_buffer = "";
