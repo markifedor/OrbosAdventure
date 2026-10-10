@@ -4,8 +4,8 @@
   "name":"ReadMe",
   "openedOnFirstLoad":true,
   "parent":{
-    "name":"RPG Starter Pack",
-    "path":"RPG Starter Pack.yyp",
+    "name":"OrbosAdventure",
+    "path":"OrbosAdventure.yyp",
   },
   "resourceType":"GMNotes",
   "resourceVersion":"2.0",
