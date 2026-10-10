@@ -10,7 +10,7 @@
     },
     "X": {
         "name": "wall",
-        "look": 4,
+        "look": 101,
         "properties": {
             "blockMovement": true
         }

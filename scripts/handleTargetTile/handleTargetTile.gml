@@ -19,58 +19,58 @@ function canMoveToTargetTile(controller, player){
 function handleTargetTile(controller, player){
     with (player) {
         // Obtain Tile
-        var targetTile = controller.tiles[# targetTilePos[0], targetTilePos[1]]
+        var targetTile = controller.tiles[# targetTilePos[0], targetTilePos[1]];
         if (!canMoveToTargetTile(controller, player)){
-            return
+            return;
         }
         
         var targetOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]]
         
         if (typeof(targetTile) != "struct"){
-            return false
+            return false;
         }
         
-        var overlayExists = false
+        var overlayExists = false;
         if (typeof(targetOverlayTile) == "struct"){
-            overlayExists = true
+            overlayExists = true;
         }
         
-        var props = targetTile[$ "properties"]
-        var overlayProps
+        var props = targetTile[$ "properties"];
+        var overlayProps;
         
         
         // Check Properties of Tile
-        var ignoreSteps = false
+        var ignoreSteps = false;
         
         if (overlayExists){
-            overlayProps = targetOverlayTile[$ "properties"]
-            ignoreSteps = overlayProps[$ "ignoreSteps"]
+            overlayProps = targetOverlayTile[$ "properties"];
+            ignoreSteps = overlayProps[$ "ignoreSteps"];
         }
         
         if (!is_undefined(props[$ "stepsIn"]) and !ignoreSteps){
-            player.steps += props[$ "stepsIn"]
+            player.steps += props[$ "stepsIn"];
         }
         
-        var convertOnIn = props[$ "convertOnIn"]
+        var convertOnIn = props[$ "convertOnIn"];
         if (!is_undefined(convertOnIn)){
             var newLook;
             if (is_real(convertOnIn)){
-                newLook = convertOnIn
+                newLook = convertOnIn;
             } else {
-                targetTile = controller._csv_to_tile_struct[$ convertOnIn]
-                newLook = targetTile[$ "look"]
-                controller.tiles[# targetTilePos[0], targetTilePos[1]] = targetTile
+                targetTile = controller._csv_to_tile_struct[$ convertOnIn];
+                newLook = targetTile[$ "look"];
+                controller.tiles[# targetTilePos[0], targetTilePos[1]] = targetTile;
             }
             
-            tilemap_set(controller._tilemap_id, newLook, targetTilePos[0], targetTilePos[1])
+            tilemap_set(controller._tilemap_id, newLook, targetTilePos[0], targetTilePos[1]);
         }
         
         // Handle Level Finish
         if (!is_undefined(props[$ "finish"]) and props[$ "finish"] == true){
-            controller.roomFinished = true
+            controller.roomFinished = true;
         }
         
-        return true
+        return true;
     }
 }
 
@@ -80,11 +80,11 @@ function handleSlimingIn(controller, player){
         var props = targetTile[$ "properties"];
         
         var targetOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]];
-        var overlayProps = targetOverlayTile[$ "properties"]
+        var overlayProps = targetOverlayTile[$ "properties"];
         
-        var overlayExists = false
+        var overlayExists = false;
         if (typeof(targetOverlayTile) == "struct"){
-            overlayExists = true
+            overlayExists = true;
         }
         
         var slimedIn = props[$ "slimedIn"];

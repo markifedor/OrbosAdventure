@@ -58,7 +58,7 @@ if (room == Room1) {
     draw_text(view_wport/2, 200, "Move with the W, A, S, D keys")
 }
 if (room == Room5) {
-    draw_text(view_wport/2, 200, "Press R to restart the level")
+    draw_text(view_wport/2, 200, "Press R to restart the level at any time.")
 }
 
 if (roomFailed) {

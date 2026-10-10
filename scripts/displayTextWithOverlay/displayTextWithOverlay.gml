@@ -16,5 +16,5 @@ function displayTextWithOverlay(displayText){
     draw_set_alpha(1.0);
     draw_set_color(c_white);
     
-    draw_text(view_wport/2, view_hport/2, displayText)
+    draw_text(view_wport/2, view_hport/3, displayText);
 }

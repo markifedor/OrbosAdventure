@@ -7,7 +7,7 @@ function handleSelfUpdatingTiles(controller, player){
             var props = selfUpdatingTile[$ "properties"];
             
             if (is_undefined(props)){
-                continue
+                continue;
             }
             
             // Step Conversions

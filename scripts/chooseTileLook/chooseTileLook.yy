@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"chooseTileLook",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"chooseTileLook",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

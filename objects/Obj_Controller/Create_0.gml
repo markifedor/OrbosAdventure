@@ -94,5 +94,12 @@ for (var _gx = 0; _gx < _width; _gx++){
         tilemap_set(_tilemap_id, _tile_struct[$ "look"], _gx, _gy);
     }
 }
+
+for (var _gx = 0; _gx < _width; _gx++){
+    for (var _gy = 0; _gy < _height; _gy++){
+        chooseTileLook(id, _gx, _gy);
+    }
+}    
+
 delete _csv_grid
 player.ready = true
