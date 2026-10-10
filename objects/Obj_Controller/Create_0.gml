@@ -10,13 +10,28 @@ maxRoomHeight = 16;
 tiles = ds_grid_create(maxRoomWidth, maxRoomHeight);
 overlayTiles = ds_grid_create(maxRoomWidth, maxRoomHeight);
 _csv_to_tile_struct = undefined;
-_tilemap_id = undefined;
-_overlay_tilemap_id = undefined;
+
+var _tile_layer_id = layer_get_id("Tiles");
+_tilemap_id = layer_tilemap_get_id(_tile_layer_id);
+tileset_id = tilemap_get_tileset(_tilemap_id);
+tileset_name = tileset_get_name(tileset_id);
+tileset_sprite = asset_get_index("spr_" + $"{tileset_name}");
+
+var _overlayTiles_layer_id = layer_get_id("OverlayTiles");
+_overlay_tilemap_id = layer_tilemap_get_id(_overlayTiles_layer_id);
+
+TILE_HEIGHT = tilemap_get_tile_height(_tilemap_id);
+
 player = noone;
 roomFinished = false;
 roomFailed = false;
 
-selfUpdatingTiles = ds_list_create();
+selfUpdatingTilesCoords = ds_list_create();
+
+roomLabelTileCoords = undefined;
+roomNum = string_digits(room_get_name(room));
+roomNumOnes = roomNum mod 10;
+roomNumTens = roomNum div 10;
 
 // Debug
 room_jump_debug_on = false;
@@ -35,12 +50,6 @@ buffer_delete(_buffer);
 _csv_to_tile_struct = json_parse(_json_string);
 
 // Tile Building
-var _tile_layer_id = layer_get_id("Tiles");
-_tilemap_id = layer_tilemap_get_id(_tile_layer_id);
-TILE_HEIGHT = tilemap_get_tile_height(_tilemap_id);
-
-var _overlayTiles_layer_id = layer_get_id("OverlayTiles");
-_overlay_tilemap_id = layer_tilemap_get_id(_overlayTiles_layer_id);
 
 var _csv_grid = load_csv("rooms/Rooms - " + room_get_name(room) + ".csv");
 
@@ -55,7 +64,7 @@ for (var _gx = 0; _gx < _width; _gx++){
         }
         var _tile_struct = _csv_to_tile_struct[$ string_char_at(_tile_csv, 1)];
         if (is_undefined(_tile_struct)){
-            show_error_message("Undefined tile CSV id at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") of " + room_get_name(room) + ": " + _tile_csv, true);
+            show_error("Undefined tile CSV id at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") of " + room_get_name(room) + ": \"" + _csv_grid[# _gx, _gy] + "\"", true);
         }
         if (string_length(string_letters(_tile_csv)) >= 2){
             var _overlay_struct = _csv_to_tile_struct[$ string_char_at(string_letters(_tile_csv), 2)]
@@ -84,9 +93,13 @@ for (var _gx = 0; _gx < _width; _gx++){
                 _tile_struct = variable_clone(_tile_struct);
                 _tile_struct[$ "properties"][$ "stepCount"] = stepCount;
                 
-                tilemap_set(_overlay_tilemap_id, _tile_struct[$ "look"] + 1 + stepCount, _gx, _gy);
+                tilemap_set(_overlay_tilemap_id, getTileIdOfDigit(stepCount), _gx, _gy);
                 
-                ds_list_add(selfUpdatingTiles, [_gx, _gy]);
+                ds_list_add(selfUpdatingTilesCoords, [_gx, _gy]);
+            }
+            if(!is_undefined(props[$ "roomLabel"])){
+                roomLabelTileCoords = [_gx, _gy];
+                tilemap_set(_tilemap_id, _tile_struct[$ "look"], _gx, _gy);
             }
         }
         

@@ -67,3 +67,21 @@ if (roomFailed) {
 if (roomFinished) {
     displayTextWithOverlay("Success! Press F to continue.")
 }
+
+if (roomNum < 10){
+    tilemap_set(_overlay_tilemap_id, getTileIdOfDigit(roomNumOnes), roomLabelTileCoords[0], roomLabelTileCoords[1]);
+}
+else { 
+    draw_sprite_part_ext(
+        tileset_sprite, 0, 
+        roomNumTens*TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, 
+        roomLabelTileCoords[0]*TILE_HEIGHT + (TILE_HEIGHT * 1 / 2), roomLabelTileCoords[1]*TILE_HEIGHT + TILE_HEIGHT,
+        2, 2, c_white, 1
+    );
+    draw_sprite_part_ext(
+        tileset_sprite, 0, 
+        roomNumOnes*TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, 
+        roomLabelTileCoords[0]*TILE_HEIGHT + (TILE_HEIGHT * 3 / 2), roomLabelTileCoords[1]*TILE_HEIGHT + TILE_HEIGHT,
+        2, 2, c_white, 1
+    );
+}

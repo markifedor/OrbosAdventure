@@ -1,4 +1,12 @@
 {
+    "R": {
+        "name": "room label",
+        "look": 42,
+        "properties": {
+            "roomLabel": true
+        }
+    },
+
     "O": {
         "name": "normal",
         "look": 3,

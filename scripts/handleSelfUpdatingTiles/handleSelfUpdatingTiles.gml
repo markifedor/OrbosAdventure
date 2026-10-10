@@ -1,8 +1,8 @@
 function handleSelfUpdatingTiles(controller, player){
     with(controller){
-        for (var i = 0; i < ds_list_size(selfUpdatingTiles); i++){
-            var _gx = selfUpdatingTiles[| i][0];
-            var _gy = selfUpdatingTiles[| i][1];
+        for (var i = 0; i < ds_list_size(selfUpdatingTilesCoords); i++){
+            var _gx = selfUpdatingTilesCoords[| i][0];
+            var _gy = selfUpdatingTilesCoords[| i][1];
             var selfUpdatingTile = tiles[# _gx, _gy];
             var props = selfUpdatingTile[$ "properties"];
             
@@ -32,7 +32,7 @@ function handleSelfUpdatingTiles(controller, player){
                 var convertedProps = convertedTile[$ "properties"];
                 
                 if (convertedProps[$ "stepCountVisible"]){
-                    tilemap_set(_overlay_tilemap_id, convertedTile[$ "look"] + 1 + convertedProps[$ "stepCount"], _gx, _gy);  
+                    tilemap_set(_overlay_tilemap_id, getTileIdOfDigit(convertedProps[$ "stepCount"]), _gx, _gy);  
                 } else {
                     tilemap_set(_overlay_tilemap_id, 0, _gx, _gy);
                 }

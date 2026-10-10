@@ -1,13 +1,13 @@
 {
   "$GMTileSet":"v1",
-  "%Name":"TileSet_Canyon",
+  "%Name":"tileset_canyon",
   "autoTileSets":[],
   "macroPageTiles":{
     "SerialiseHeight":0,
     "SerialiseWidth":0,
     "TileSerialiseData":[],
   },
-  "name":"TileSet_Canyon",
+  "name":"tileset_canyon",
   "out_columns":32,
   "out_tilehborder":2,
   "out_tilevborder":2,
