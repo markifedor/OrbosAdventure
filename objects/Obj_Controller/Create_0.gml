@@ -113,8 +113,8 @@ for (var _gx = 0; _gx < _width; _gx++){
                 roomLabelTileCoords = [_gx, _gy];
                 tilemap_set(_tilemap_id, _tile_struct[$ "look"], _gx, _gy);
             }
-            else{ 
-                // Add background tile to each tile that's occupied
+            else if (_tile_struct[$ "look"] != 1){
+                // Add background tile to each occupied tile that's not already the background tile
                 tilemap_set(_background_tilemap_id, 1, _gx, _gy);
             }
         }
