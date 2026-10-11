@@ -2,6 +2,12 @@
 //    return
 //}
 
+if (steps == 0) {
+    controller.roomFailed = true;
+    instance_destroy();
+    return;
+}
+
 image_xscale = (3*sqrt(steps))/max_steps;
 image_yscale = image_xscale;
 
@@ -53,12 +59,6 @@ if (!controller.roomFinished and !controller.roomFailed) {
             return;
        }
     }
-}
-
-if (steps == 0) {
-    controller.roomFailed = true;
-    instance_destroy();
-    return;
 }
 
 //if (sprite_index == spr_player_walk_down) sprite_index = spr_player_idle_down;
