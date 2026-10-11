@@ -9,7 +9,7 @@
 
     "O": {
         "name": "normal",
-        "look": 3,
+        "look": 1,
         "properties": {
             "stepsIn": -1,
             "slimedIn": true,
@@ -25,7 +25,7 @@
     },
     "W": {
         "name": "shallow water",
-        "look": 2,
+        "look": 3,
         "properties": {
             "stepsIn": 1,
             "convertOnIn": "O",
@@ -35,7 +35,7 @@
     },
     "F": {
         "name": "finish",
-        "look": 1,
+        "look": 2,
         "properties": {
             "stepsIn": 1,
             "convertOnIn": "O",
@@ -46,7 +46,7 @@
     },
     "S": {
         "name": "start",
-        "look": 3,
+        "look": 1,
         "properties": {
             "start": true,
             "slimedIn": false,

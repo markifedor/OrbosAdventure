@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"chooseTileLook",
+  "%Name":"pretifyTile",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"chooseTileLook",
+  "name":"pretifyTile",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

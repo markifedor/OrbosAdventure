@@ -8,6 +8,8 @@ c_slime = #19665A;
 maxRoomWidth = 16;
 maxRoomHeight = 16;
 tiles = ds_grid_create(maxRoomWidth, maxRoomHeight);
+ds_grid_clear(tiles, undefined);
+
 overlayTiles = ds_grid_create(maxRoomWidth, maxRoomHeight);
 _csv_to_tile_struct = undefined;
 
@@ -19,6 +21,12 @@ tileset_sprite = asset_get_index("spr_" + $"{tileset_name}");
 
 var _overlayTiles_layer_id = layer_get_id("OverlayTiles");
 _overlay_tilemap_id = layer_tilemap_get_id(_overlayTiles_layer_id);
+
+var _backgroundTiles_layer_id = layer_get_id("BackgroundTiles");
+_background_tilemap_id = layer_tilemap_get_id(_backgroundTiles_layer_id);
+
+var _borderTiles_layer_id = layer_get_id("BorderTiles");
+_border_tilemap_id = layer_tilemap_get_id(_borderTiles_layer_id);
 
 TILE_HEIGHT = tilemap_get_tile_height(_tilemap_id);
 
@@ -61,8 +69,10 @@ for (var _gx = 0; _gx < _width; _gx++){
     for (var _gy = 0; _gy < _height; _gy++){
         var _tile_csv = string_trim(_csv_grid[# _gx, _gy]);
         if (_tile_csv == ""){
+            tiles[# _gx, _gy] = undefined;
             continue;
         }
+        
         var _tile_struct = _csv_to_tile_struct[$ string_char_at(_tile_csv, 1)];
         if (is_undefined(_tile_struct)){
             show_error("Undefined tile CSV id at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") of " + room_get_name(room) + ": \"" + _csv_grid[# _gx, _gy] + "\"", true);
@@ -98,9 +108,14 @@ for (var _gx = 0; _gx < _width; _gx++){
                 
                 ds_list_add(selfUpdatingTilesCoords, [_gx, _gy]);
             }
+            
             if(!is_undefined(props[$ "roomLabel"])){
                 roomLabelTileCoords = [_gx, _gy];
                 tilemap_set(_tilemap_id, _tile_struct[$ "look"], _gx, _gy);
+            }
+            else{ 
+                // Add background tile to each tile that's occupied
+                tilemap_set(_background_tilemap_id, 1, _gx, _gy);
             }
         }
         
@@ -111,7 +126,7 @@ for (var _gx = 0; _gx < _width; _gx++){
 
 for (var _gx = 0; _gx < _width; _gx++){
     for (var _gy = 0; _gy < _height; _gy++){
-        chooseTileLook(id, _gx, _gy);
+        pretifyTile(id, _gx, _gy);
     }
 }    
 
