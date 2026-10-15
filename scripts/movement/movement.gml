@@ -40,12 +40,12 @@ function update_tile_movement(controller, _inst) {
             handleCurrentTile(controller, id);
         }
         
-        if (move_timer == int64(move_duration*.4)){
+        if (move_timer == int64(move_duration*.3)){
             // Trigger in mechanics
             handleTargetTile(controller, id);
         }
         
-        if (move_timer == int64(move_duration*.7)){
+        if (move_timer == int64(move_duration*.6)){
             // Trigger sliming
             handleSlimingIn(controller, id);
         }

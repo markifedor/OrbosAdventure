@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"pretifyTile",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"Tile Placement",
+    "path":"folders/Scripts/Tile Placement.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

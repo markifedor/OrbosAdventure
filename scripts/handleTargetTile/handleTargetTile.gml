@@ -30,25 +30,36 @@ function handleTargetTile(controller, player){
             return false;
         }
         
-        var overlayExists = false;
-        if (typeof(targetOverlayTile) == "struct"){
-            overlayExists = true;
-        }
-        
+        // Check Properties of Tile (and OverlayTile)
         var props = targetTile[$ "properties"];
         var overlayProps;
         
-        
-        // Check Properties of Tile
         var ignoreSteps = false;
         
-        if (overlayExists){
+        if (!is_undefined(props[$ "ignoreSteps"])){
+            ignoreSteps = props[$ "ignoreSteps"];
+        }
+        
+        
+        var overlayExists = false;
+        if (typeof(targetOverlayTile) == "struct"){
+            overlayExists = true;
             overlayProps = targetOverlayTile[$ "properties"];
-            ignoreSteps = overlayProps[$ "ignoreSteps"];
+            if (!is_undefined(overlayProps[$ "ignoreSteps"])){
+                // overlay overrides normal ignore steps properties
+                ignoreSteps = overlayProps[$ "ignoreSteps"];
+            }
         }
         
         if (!is_undefined(props[$ "stepsIn"]) and !ignoreSteps){
             player.steps += props[$ "stepsIn"];
+        }
+        
+        // Handle Level Finish
+        if (overlayExists and !is_undefined(overlayProps[$ "finish"]) and overlayProps[$ "finish"] == true){
+            controller.roomFinished = true;
+            targetTile = variable_clone(targetTile);
+            props[$ "convertOnIn"] = overlayProps[$ "convertOnIn"]
         }
         
         var convertOnIn = props[$ "convertOnIn"];
@@ -65,10 +76,7 @@ function handleTargetTile(controller, player){
             tilemap_set(controller._tilemap_id, newLook, targetTilePos[0], targetTilePos[1]);
         }
         
-        // Handle Level Finish
-        if (!is_undefined(props[$ "finish"]) and props[$ "finish"] == true){
-            controller.roomFinished = true;
-        }
+        
         
         return true;
     }

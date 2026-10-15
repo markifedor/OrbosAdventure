@@ -16,6 +16,7 @@
             "slimedOut": false
         }
     },
+
     "X": {
         "name": "wall",
         "look": 101,
@@ -23,25 +24,42 @@
             "blockMovement": true
         }
     },
+
     "W": {
         "name": "shallow water",
         "look": 3,
         "properties": {
             "stepsIn": 1,
-            "convertOnIn": "O",
+            "convertOnIn": "w",
             "slimedIn": true,
             "slimedOut": false
         }
     },
+
+    "w": {
+        "name": "sucked up water",
+        "look": 6,
+        "properties": {
+            "stepsIn": -1,
+            "slimedIn": true,
+            "slimedOut": false
+        }
+    },
+
     "F": {
         "name": "finish",
         "look": 2,
         "properties": {
-            "stepsIn": 1,
-            "convertOnIn": "O",
-            "finish": true,
-            "slimedIn": true,
-            "slimedOut": false
+            "convertOnIn": "f",
+            "overlay": true,
+            "finish": true
+        }
+    },
+    "f": {
+        "name": "obtained finish",
+        "look": 10,
+        "properties": {
+            "slimedIn": true
         }
     },
     "S": {
@@ -55,7 +73,7 @@
     },
     "D": {
         "name": "door",
-        "look": 6,
+        "look": 8,
         "properties": {
             "blockMovement": true,
             "convertOnStepCount": "d",
@@ -65,7 +83,7 @@
     },
     "d": {
         "name": "opened door",
-        "look": 7,
+        "look": 9,
         "properties": {
             "ignoreSteps": true,
             "convertOnNotStepCount": "D",
@@ -75,7 +93,7 @@
     },
     "L": {
         "name": "slimed",
-        "look": 5,
+        "look": 7,
         "properties": {
             "overlay": true,
             "ignoreSteps": true

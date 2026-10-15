@@ -8,7 +8,7 @@ if (steps == 0) {
     return;
 }
 
-image_xscale = (3*sqrt(steps))/max_steps;
+image_xscale = (3+2.25*power(steps-1, 2/3))/max_steps;
 image_yscale = image_xscale;
 
 // Proccess inputs and add to buffer

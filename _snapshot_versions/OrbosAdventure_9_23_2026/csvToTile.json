@@ -1,0 +1,54 @@
+{
+    "O": {
+        "name": "normal",
+        "look": 3,
+        "properties": {
+            "stepsOut": -1,
+            "canBeSlimed": true
+        }
+    },
+    "X": {
+        "name": "wall",
+        "look": 4,
+        "properties": {
+            "blockMovement": true,
+            "canBeSlimed": false
+        }
+    },
+    "W": {
+        "name": "shallow water",
+        "look": 2,
+        "properties": {
+            "stepsIn": 1,
+            "convertOnOut": "O",
+            "canBeSlimed": true
+        }
+    },
+    "F": {
+        "name": "finish",
+        "look": 1,
+        "properties": {
+            "stepsIn": 1,
+            "finish": true,
+            "canBeSlimed": false
+        }
+    },
+    "S": {
+        "name": "start",
+        "look": 2,
+        "properties": {
+            "convertOnOut": "O",
+            "start": true,
+            "canBeSlimed": true
+        }
+    },
+    "L": {
+        "name": "slimed",
+        "look": 5,
+        "properties": {
+            "overlay": true,
+            "ignoreSteps": true,
+            "canBeSlimed": false
+        }
+    }
+}
