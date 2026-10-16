@@ -1,7 +1,3 @@
-//if (!ready){
-//    return
-//}
-
 if (steps == 0) {
     controller.roomFailed = true;
     instance_destroy();
@@ -36,14 +32,12 @@ if (!controller.roomFinished and !controller.roomFailed) {
 if(is_moving){
     update_tile_movement(controller, id);
     return;
-}    
+}
 
 // Use buffered inputs
 if (!controller.roomFinished and !controller.roomFailed) {  
-    var dir = [0, 0];
-    if (ds_queue_size(moveBuffer) > 0){
-        handleSelfUpdatingTiles(controller, id);
-        
+    dir = [0, 0];
+    if (ds_queue_size(moveBuffer) > 0){ 
         dir = ds_queue_dequeue(moveBuffer);
         targetTilePos = [pos[0]+dir[0], pos[1]+dir[1]];
         

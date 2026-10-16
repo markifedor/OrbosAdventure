@@ -76,8 +76,6 @@ function handleTargetTile(controller, player){
             tilemap_set(controller._tilemap_id, newLook, targetTilePos[0], targetTilePos[1]);
         }
         
-        
-        
         return true;
     }
 }

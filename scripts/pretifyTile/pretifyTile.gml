@@ -1,5 +1,10 @@
 function doesTileMatch(tileNameToMatch, tile){
     if (!is_undefined(tile)){
+        if (!is_undefined(tile[$ "properties"])){
+            if (tileNameToMatch != "" && tile[$ "properties"][$ tileNameToMatch]){
+                return true;
+            }
+        }
         return tileNameToMatch == tile[$ "name"];
     }
     

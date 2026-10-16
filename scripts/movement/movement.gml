@@ -1,12 +1,41 @@
 /// @function move_to_tile(inst, target_grid_x, target_grid_y, duration, curve_asset)
-function move_to_tile(controller, _inst) {
-    if (_inst.is_moving) return false; // Already moving
+function move_to_tile(controller, player) {
+    if (player.is_moving) return false; // Already moving
     
-    with (_inst) {
+    with (player) {
         is_moving = true;
         move_timer = 0;
         move_duration = 15;
         curve_asset = Curve_Move;
+        curve_channel = "move";
+        
+        var currentOverlayProps = controller.overlayTiles[# pos[0], pos[1]][$ "properties"];
+        var targetOverlayProps = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]][$ "properties"];
+        
+        var currentSlips = false
+        if (!is_undefined(currentOverlayProps) and !is_undefined(currentOverlayProps[$ "slipToNextTile"])){
+            currentSlips = currentOverlayProps[$ "slipToNextTile"];
+        }
+         
+        var targetSlips = false
+        if (!is_undefined(targetOverlayProps) and !is_undefined(targetOverlayProps[$ "slipToNextTile"])){
+            targetSlips = targetOverlayProps[$ "slipToNextTile"];
+        }
+            
+        if (targetSlips){
+            if (is_slipping){
+                curve_channel = "iceContinue";
+                move_duration = 10;
+            }
+            else {
+                curve_channel = "iceMoveStart";
+                is_slipping = true;
+            }
+        }
+        else {
+            curve_channel = "iceMoveEnd";
+            is_slipping = false;
+        }
         
         start_x = x;
         start_y = y;
@@ -22,14 +51,14 @@ function move_to_tile(controller, _inst) {
 }
 
 /// @function update_tile_movement(inst)
-function update_tile_movement(controller, _inst) {
-    with (_inst) {
+function update_tile_movement(controller, player) {
+    with (player) {
         if (!is_moving) return;
         
         move_timer++;
         var _progress = clamp(move_timer / move_duration, 0, 1);
         
-        var _channel = animcurve_get_channel(curve_asset, "move");
+        var _channel = animcurve_get_channel(curve_asset, curve_channel);
         var _curve_val = animcurve_channel_evaluate(_channel, _progress);
         
         x = lerp(start_x, target_x, _curve_val);
@@ -56,6 +85,7 @@ function update_tile_movement(controller, _inst) {
             is_moving = false;
             pos = targetTilePos;
             handleSelfUpdatingTiles(controller, id);
+            handleEndMovementMechanics(controller, id);
         }
     }
 }

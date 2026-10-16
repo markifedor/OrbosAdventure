@@ -61,6 +61,10 @@ if (room == Room5) {
     draw_text(view_wport/2, 200, "Press R to restart the level at any time.")
 }
 
+if (room == Room6 or room == Room7 or room == Room8) {
+    draw_text(view_wport/2, 200, player.is_slipping);
+}
+
 if (roomFailed) {
     displayTextWithOverlay("Failure. Press R to restart.")
 }

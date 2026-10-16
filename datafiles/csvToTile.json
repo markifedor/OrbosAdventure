@@ -98,5 +98,23 @@
             "overlay": true,
             "ignoreSteps": true
         }
+    },
+    "I": {
+        "name": "iced",
+        "look": 11,
+        "properties": {
+            "overlay": true,
+            "ignoreSteps": true,
+            "slimedIn": false,
+            "slimedOut": false,
+            "slipToNextTile": true
+        }
+    },
+    "E": {
+        "name": "cave entrance",
+        "look": 136,
+        "properties": {
+            "wall": true
+        }
     }
 }
