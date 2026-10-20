@@ -116,5 +116,21 @@
         "properties": {
             "wall": true
         }
+    },
+    "K": {
+        "name": "spike",
+        "look": 12,
+        "properties": {
+            "killsOnIn": true
+        } 
+    },
+    "M": {
+        "name": "mirror shard",
+        "look": 13,
+        "properties": {
+            "splitsOnIn": true,
+            "directionAllowSplit": "^"
+        }
+
     }
 }

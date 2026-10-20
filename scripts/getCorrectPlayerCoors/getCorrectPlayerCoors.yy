@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"getCorrectPlayerCoors",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"getCorrectPlayerCoors",
+  "parent":{
+    "name":"PlayerHelpers",
+    "path":"folders/Scripts/PlayerHelpers.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

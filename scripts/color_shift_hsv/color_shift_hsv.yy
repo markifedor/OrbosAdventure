@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"placeTile",
+  "%Name":"color_shift_hsv",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"placeTile",
+  "name":"color_shift_hsv",
   "parent":{
-    "name":"Tile Placement",
-    "path":"folders/Scripts/Tile Placement.yy",
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

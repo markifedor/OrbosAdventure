@@ -21,11 +21,13 @@ function handleCurrentTile(controller, player){
         overlayProps = currentOverlayTile[$ "properties"];
         ignoreSteps = overlayProps[$ "ignoreSteps"];
     }
-        
-    var stepsOut = props[$ "stepsOut"];
-    if (!is_undefined(stepsOut) and !ignoreSteps){
-        player.steps += stepsOut;
-    }
+      
+    // stepsOut not currently used
+      
+    //var stepsOut = props[$ "stepsOut"];
+    //if (!is_undefined(stepsOut) and !ignoreSteps){
+    //    changePlayerSteps(player, controller, player.steps + stepsOut);
+    //}
     
     var convertOnOut = props[$ "convertOnOut"];
     if (!is_undefined(convertOnOut)){

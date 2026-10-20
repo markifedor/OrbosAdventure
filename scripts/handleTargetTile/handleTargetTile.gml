@@ -12,6 +12,22 @@ function canMoveToTargetTile(controller, player){
         if (targetTile[$ "properties"][$ "blockMovement"] == true){
             return false;
         }
+        
+        var directionAllowSplit = targetTile[$ "properties"][$ "directionAllowSplit"];
+        show_debug_message(directionAllowSplit);
+        if (!is_undefined(directionAllowSplit)){
+            
+            switch(directionAllowSplit){
+                case "^":
+                    return array_equals(dir, [0, 1]);
+                case ">":
+                    return array_equals(dir, [-1, 0]);
+                case "v":
+                    return array_equals(dir, [0, -1]);
+                case "<":
+                    return array_equals(dir, [1, 0]);
+            }
+        }
     }
     return true;
 }
@@ -51,8 +67,53 @@ function handleTargetTile(controller, player){
             }
         }
         
-        if (!is_undefined(props[$ "stepsIn"]) and !ignoreSteps){
-            player.steps += props[$ "stepsIn"];
+        var killsOnIn = props[$ "killsOnIn"];
+        if (!is_undefined(killsOnIn) and killsOnIn){
+            is_dying = true;
+        }
+        
+        var splitsOnIn = props[$ "splitsOnIn"];
+        if (!is_undefined(splitsOnIn) and splitsOnIn){
+            var directionAllowSplit = props[$ "directionAllowSplit"];
+            if (is_undefined(directionAllowSplit)){
+                show_error($"Mirror shard at {targetTilePos} does not have a direction.", true);
+            }
+            
+            controller.copyPlayer = clonePlayer(player);
+            
+            changePlayerSteps(controller.copyPlayer, controller, steps div 2);
+            
+            if (steps mod 2 == 0){
+                changePlayerSteps(player, controller, steps div 2);
+            } else {
+                changePlayerSteps(player, controller, steps div 2 + 1); 
+            }
+            
+            switch(directionAllowSplit){
+                case "^":
+                    controller.copyPlayer.targetTilePos[0] += 1;
+                    player.targetTilePos[0] -= 1;
+                    break;
+                case ">":
+                    controller.copyPlayer.targetTilePos[1] += 1;
+                    player.targetTilePos[1] -= 1;
+                    break;
+                case "v":
+                    controller.copyPlayer.targetTilePos[0] += 1;
+                    player.targetTilePos[0] -= 1;
+                    break;
+                case "<":
+                    controller.copyPlayer.targetTilePos[1] += 1;
+                    player.targetTilePos[1] -= 1;
+                    break;
+            }
+            controller.copyPlayer.changedTarget = true;
+            changedTarget = true;
+        }
+        
+        var stepsIn = props[$ "stepsIn"];
+        if (!is_undefined(stepsIn) and !ignoreSteps){
+            changePlayerSteps(player, controller, player.steps + stepsIn);
         }
         
         // Handle Level Finish

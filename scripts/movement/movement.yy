@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"movement",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"PlayerHelpers",
+    "path":"folders/Scripts/PlayerHelpers.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

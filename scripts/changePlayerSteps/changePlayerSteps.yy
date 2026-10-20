@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"changePlayerSteps",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"changePlayerSteps",
+  "parent":{
+    "name":"PlayerHelpers",
+    "path":"folders/Scripts/PlayerHelpers.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

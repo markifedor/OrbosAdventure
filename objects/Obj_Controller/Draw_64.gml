@@ -1,3 +1,16 @@
+// 1. Define your normal target frame rate
+var _normal_fps = 60;
+var _slow_fps = 15; // 15 FPS = 4x slowdown (draws on 4s)
+
+// 2. Check if your debug key is held (e.g., TAB or CONTROL)
+if (keyboard_check(vk_tab)) {
+    // Slow down game execution
+    game_set_speed(_slow_fps, gamespeed_fps);
+} else {
+    // Restore normal execution speed
+    game_set_speed(_normal_fps, gamespeed_fps);
+}
+
 if (room_jump_debug_on) {
     // Only keep numeric digits typed by the user
     room_jump_input_buffer = string_digits(keyboard_string)
@@ -37,7 +50,7 @@ if (room == DefaultRoom){
 }
 
 if (instance_exists(player)){
-    draw_sprite(spr_slime_meter, 0, view_wport/2, 80);
+    draw_sprite(spr_slime_meter, 0, view_wport/2, 70);
     draw_set_font(SlimeNumberFont);
     if (player.steps <= 1){
         draw_set_color(c_red);
@@ -48,7 +61,7 @@ if (instance_exists(player)){
     } else{
         draw_set_colour(c_slime);   
     }
-    draw_text(view_wport/2, 80, $"{instance_exists(player) ? player.steps : 0}")
+    draw_text(view_wport/2, 70, $"{instance_exists(player) ? player.steps : 0}")
     draw_set_colour(c_white);
     draw_set_font(DebugFont);
 }
@@ -61,9 +74,9 @@ if (room == Room5) {
     draw_text(view_wport/2, 200, "Press R to restart the level at any time.")
 }
 
-if (room == Room6 or room == Room7 or room == Room8) {
-    draw_text(view_wport/2, 200, player.is_slipping);
-}
+//if (room == Room6 or room == Room7 or room == Room8) {
+//    draw_text(view_wport/2, 200, player.is_slipping);
+//}
 
 if (roomFailed) {
     displayTextWithOverlay("Failure. Press R to restart.")

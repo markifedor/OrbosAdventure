@@ -1,26 +1,32 @@
-function handleEndMovementMechanics(controller, player){
-    show_debug_message("Doing end movement mechanics");
-    with (player){
+function handleEndMovementMechanics(controller, player) {
+    //show_debug_message("Doing end movement mechanics");
+    with (player) {
+        if (is_undefined(player)){
+            return;
+        }
         var currentOverlayTile = controller.overlayTiles[# pos[0], pos[1]];
-        
         var overlayProps = undefined;
         
-        if (typeof(currentOverlayTile) == "struct"){
-            show_debug_message("overlayExists!");
-            overlayProps = currentOverlayTile[$ "properties"]
-        
+        if (is_struct(currentOverlayTile)) {
+            overlayProps = currentOverlayTile[$ "properties"];
             var slipToNextTile = overlayProps[$ "slipToNextTile"];
-            if (!is_undefined(slipToNextTile) and slipToNextTile){
-                show_debug_message($"Sliping in dir: {dir}");
+            
+            if (!is_undefined(slipToNextTile) && slipToNextTile) {
                 targetTilePos = [pos[0] + dir[0], pos[1] + dir[1]];
-                if(canMoveToTargetTile(controller, id)) {
+                
+                if (canMoveToTargetTile(controller, id) and !player.is_dying) {
+                    // Valid slide onto ice or normal ground: reset bump flags
                     is_slipping = true;
-                    move_to_tile(controller, player);
+                    is_wall_bumping = false; 
+                    move_to_tile(controller, id);
                 }
-                else{
+                else if (!is_wall_bumping) {
+                    // Slide directly into a wall: set bump flag and calculate bump target
                     is_slipping = false;
+                    is_wall_bumping = true;
+                    move_to_tile(controller, id);
                 }
             }
-        }   
+        }    
     }
 }

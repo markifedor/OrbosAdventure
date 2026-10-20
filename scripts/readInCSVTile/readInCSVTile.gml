@@ -1,4 +1,4 @@
-function placeTile(controller, _csv_grid, _gx, _gy){
+function readInCSVTile(controller, _csv_grid, _gx, _gy){
     var _tile_csv = string_trim(_csv_grid[# _gx, _gy]);
     if (_tile_csv == ""){
         controller.tiles[# _gx, _gy] = undefined;
@@ -26,12 +26,8 @@ function placeTile(controller, _csv_grid, _gx, _gy){
     if (!is_undefined(_tile_struct[$ "properties"])){
         var props =  _tile_struct[$ "properties"];
         if (!is_undefined(props[$ "start"]) and props[$ "start"]){
-            player = instance_create_layer(_gx*TILE_HEIGHT+TILE_HEIGHT*.5, _gy*TILE_HEIGHT+TILE_HEIGHT*.5, "Instances", Obj_Player);
-            player.pos = [_gx, _gy];
-            player.steps = real(string_digits(_tile_csv));
-            player._room_height = maxRoomHeight;
-            player._room_width = maxRoomWidth;
-            player.controller = controller;
+            var steps = real(string_digits(_tile_csv));
+            player = createPlayer(id, [_gx, _gy], steps);
         }
         if (!is_undefined(props[$ "convertOnStepCount"])){
             var stepCount = real(string_digits(_tile_csv));
@@ -44,6 +40,33 @@ function placeTile(controller, _csv_grid, _gx, _gy){
             tilemap_set(controller._overlay_tilemap_id, getTileIdOfDigit(stepCount), _gx, _gy);
             
             ds_list_add(controller.selfUpdatingTilesCoords, [_gx, _gy]);
+        }
+        
+        if(!is_undefined(props[$ "splitsOnIn"])){
+            if (string_length(_tile_csv) != 2){
+                show_error("splitsOnIn Tile at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") has invalid number of characters, expected 2 but got" + string(string_length(_tile_csv)), true);
+            }
+            var directionAllowSplit = string_char_at( _tile_csv, 2);
+            if (directionAllowSplit = ""){
+                show_error("splitsOnIn Tile at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") has no directionAllowSplit" + ": \"" + _csv_grid[# _gx, _gy] + "\"", true);
+            }
+            show_debug_message(directionAllowSplit);
+            _tile_struct = variable_clone(_tile_struct);
+            _tile_struct[$ "properties"][$ "directionAllowSplit"] = directionAllowSplit;
+            switch(directionAllowSplit){
+                case "^":
+                    _tile_struct[$ "look"] += 0;
+                    break;
+                case ">":
+                    _tile_struct[$ "look"] += 1;
+                    break;
+                case "v":
+                    _tile_struct[$ "look"] += 2;
+                    break;
+                case "<":
+                    _tile_struct[$ "look"] += 3;
+                    break;
+            }
         }
         
         if(!is_undefined(props[$ "roomLabel"])){

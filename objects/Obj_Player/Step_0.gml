@@ -4,26 +4,21 @@ if (steps == 0) {
     return;
 }
 
-image_xscale = (3+2.25*power(steps-1, 2/3))/max_steps;
-image_yscale = image_xscale;
-
 // Proccess inputs and add to buffer
 if (!controller.roomFinished and !controller.roomFailed) {
-    keyPressed = false;
     var dirPressed = [ 
         keyboard_check_released(ord("D")) - keyboard_check_released(ord("A")),
         keyboard_check_released(ord("S")) - keyboard_check_released(ord("W"))
     ];
    
     if (!array_equals(dirPressed, [0, 0])) {
-        keyPressed = true;
-    }
-    if (dirPressed[0] != 0){
-        dirPressed[1] = 0; // prevent diagonal movement
-    }
-   
-    if (keyPressed){
-        ds_queue_enqueue(moveBuffer, dirPressed);
+        if (dirPressed[0] != 0 and dirPressed[1] != 0){
+            ds_queue_enqueue(moveBuffer, [dirPressed[0], 0]);
+            ds_queue_enqueue(moveBuffer, [0, dirPressed[1]]);
+        }
+        else {
+            ds_queue_enqueue(moveBuffer, dirPressed);
+        }
         show_debug_message($"Inputted {dirPressed}");
     }
 }
@@ -34,24 +29,33 @@ if(is_moving){
     return;
 }
 
+if (id == controller.player){
+    var cpPlayer = controller.copyPlayer;
+    if (cpPlayer != noone){
+        if (array_equals(cpPlayer.pos, pos)){
+            changePlayerSteps(id, controller, steps + cpPlayer.steps)
+            instance_destroy(cpPlayer);
+            controller.copyPlayer = noone;
+        }
+    }
+}
+
 // Use buffered inputs
-if (!controller.roomFinished and !controller.roomFailed) {  
+if (!is_slipping and !controller.roomFinished and !controller.roomFailed) {  
     dir = [0, 0];
     if (ds_queue_size(moveBuffer) > 0){ 
         dir = ds_queue_dequeue(moveBuffer);
         targetTilePos = [pos[0]+dir[0], pos[1]+dir[1]];
         
-        if(canMoveToTargetTile(controller, id)) {
-            //show_debug_message($"Moving to tile {targetTilePos}");
-            move_to_tile(controller, id);
+        if(!canMoveToTargetTile(controller, id)) {
+            is_wall_bumping = true;
             
             //if (dir[1] > 0) sprite_index = spr_player_walk_down;
             //if (dir[1] < 0) sprite_index = spr_player_walk_up;
             //if (dir[0] > 0) sprite_index = spr_player_walk_right;
             //if (dir[0] < 0) sprite_index = spr_player_walk_left;
-            
-            return;
-       }
+        }
+        move_to_tile(controller, id);
     }
 }
 

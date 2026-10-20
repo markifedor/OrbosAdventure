@@ -31,6 +31,7 @@ _border_tilemap_id = layer_tilemap_get_id(_borderTiles_layer_id);
 TILE_HEIGHT = tilemap_get_tile_height(_tilemap_id);
 
 player = noone;
+copyPlayer = noone;
 roomFinished = false;
 roomFailed = false;
 
@@ -67,9 +68,11 @@ var _height = ds_grid_height(_csv_grid);
 
 for (var _gx = 0; _gx < _width; _gx++){
     for (var _gy = 0; _gy < _height; _gy++){
-        placeTile(id, _csv_grid, _gx, _gy);
+        readInCSVTile(id, _csv_grid, _gx, _gy);
     }
 }
+
+delete _csv_grid
 
 for (var _gx = 0; _gx < _width; _gx++){
     for (var _gy = 0; _gy < _height; _gy++){
@@ -77,5 +80,4 @@ for (var _gx = 0; _gx < _width; _gx++){
     }
 }    
 
-delete _csv_grid
 player.ready = true
