@@ -1,8 +1,4 @@
-if(!ready){ return; }
-
-if (is_dying) {
-    changePlayerSteps(id, controller, steps div 2);
-}
+if(!in_use){ return; }
 
 var _target_fps = game_get_speed(gamespeed_fps);
 
@@ -46,10 +42,23 @@ if (!surface_exists(slime_surf) || surface_get_width(slime_surf) < _surf_size) {
 surface_set_target(slime_surf);
 draw_clear_alpha(c_black, 0); // Clear background
 
-draw_set_color(outline_color);
+var hueShift = 0;
+if (other_player.in_use){
+    if (id == controller.player){
+        hueShift -= 10;
+    }
+    if (id == controller.copyPlayer){
+        hueShift += 10;
+    }
+}
+var draw_outline_color = color_shift_hsv(outline_color, hueShift, 0, 0);
+var draw_main_color = color_shift_hsv(main_color, hueShift, 0, 0);
+var draw_outer_color = color_shift_hsv(outer_color, hueShift, 0, 0);
+
+draw_set_color(draw_outline_color);
 draw_circle(_center, _center, radius + outlineSize, false);
 
-draw_circle_colour(_center, _center, radius, main_color, outer_color, false);
+draw_circle_colour(_center, _center, radius, draw_main_color, draw_outer_color, false);
 surface_reset_target();
 
 // 3. Draw the surface stretched/squashed around origin

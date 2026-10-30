@@ -2,7 +2,11 @@ gpu_set_texfilter(false);
 draw_set_font(DebugFont);
 draw_set_halign(fa_center);
 
-c_slime = #19665A;
+font_enable_effects(SlimeNumberFont, true, {
+    outlineEnable: true,
+    outlineDistance: 5,
+    outlineColour: c_gray
+});
 
 // Public Variables
 maxRoomWidth = 16;

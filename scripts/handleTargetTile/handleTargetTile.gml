@@ -34,6 +34,7 @@ function canMoveToTargetTile(controller, player){
 
 function handleTargetTile(controller, player){
     with (player) {
+        
         // Obtain Tile
         var targetTile = controller.tiles[# targetTilePos[0], targetTilePos[1]];
         if (!canMoveToTargetTile(controller, player)){
@@ -79,9 +80,9 @@ function handleTargetTile(controller, player){
                 show_error($"Mirror shard at {targetTilePos} does not have a direction.", true);
             }
             
-            controller.copyPlayer = clonePlayer(player);
+            copyAllPlayerProperties(player, player.other_player);
             
-            changePlayerSteps(controller.copyPlayer, controller, steps div 2);
+            changePlayerSteps(player.other_player, controller, steps div 2);
             
             if (steps mod 2 == 0){
                 changePlayerSteps(player, controller, steps div 2);
@@ -91,12 +92,12 @@ function handleTargetTile(controller, player){
             
             switch(directionAllowSplit){
                 case "^":
-                    controller.copyPlayer.targetTilePos[0] += 1;
-                    player.targetTilePos[0] -= 1;
+                    controller.copyPlayer.targetTilePos[0] -= 1;
+                    player.targetTilePos[0] += 1;
                     break;
                 case ">":
-                    controller.copyPlayer.targetTilePos[1] += 1;
-                    player.targetTilePos[1] -= 1;
+                    controller.copyPlayer.targetTilePos[1] -= 1;
+                    player.targetTilePos[1] += 1;
                     break;
                 case "v":
                     controller.copyPlayer.targetTilePos[0] += 1;
@@ -109,6 +110,9 @@ function handleTargetTile(controller, player){
             }
             controller.copyPlayer.changedTarget = true;
             changedTarget = true;
+            handleTargetTile(controller, player);
+            handleTargetTile(controller, controller.copyPlayer);
+            return;
         }
         
         var stepsIn = props[$ "stepsIn"];

@@ -8,6 +8,7 @@ _room_height = -1;
 
 move_dist = 1;
 pos = [-1, -1];
+pos_before_move = [-1, -1];
 dir = [0, 0];
 targetTilePos = [-1, -1];
 moveBuffer = ds_queue_create();
@@ -37,4 +38,5 @@ bump_dir_y = 0;
 is_dying = false;
 
 controller = noone;
-ready = false;
+other_player = noone;
+in_use = false;

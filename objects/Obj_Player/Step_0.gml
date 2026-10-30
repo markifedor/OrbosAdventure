@@ -1,6 +1,16 @@
+if (!in_use){
+    return;
+}
+
+if (is_dying) {
+    changePlayerSteps(id, controller, steps div 2);
+}
+
 if (steps == 0) {
-    controller.roomFailed = true;
-    instance_destroy();
+    in_use = false;
+    if (!other_player.in_use){
+        controller.roomFailed = true;
+    }
     return;
 }
 
@@ -26,24 +36,24 @@ if (!controller.roomFinished and !controller.roomFailed) {
 // Update move animation
 if(is_moving){
     update_tile_movement(controller, id);
+    if(!is_moving and pos != pos_before_move){
+        pos_before_move = pos;
+    }
+    
     return;
 }
 
-if (id == controller.player){
-    var cpPlayer = controller.copyPlayer;
-    if (cpPlayer != noone){
-        if (array_equals(cpPlayer.pos, pos)){
-            changePlayerSteps(id, controller, steps + cpPlayer.steps)
-            instance_destroy(cpPlayer);
-            controller.copyPlayer = noone;
-        }
+if (id == controller.player and other_player.in_use){
+    if (array_equals(other_player.pos, pos)){
+        changePlayerSteps(id, controller, steps + other_player.steps)
+        other_player.in_use = false;
+        handleSelfUpdatingTiles(controller);
     }
 }
-
 // Use buffered inputs
-if (!is_slipping and !controller.roomFinished and !controller.roomFailed) {  
+if (!is_slipping and !controller.roomFinished and !controller.roomFailed) { 
     dir = [0, 0];
-    if (ds_queue_size(moveBuffer) > 0){ 
+    if (ds_queue_size(moveBuffer) > 0){
         dir = ds_queue_dequeue(moveBuffer);
         targetTilePos = [pos[0]+dir[0], pos[1]+dir[1]];
         

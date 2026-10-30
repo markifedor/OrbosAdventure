@@ -49,21 +49,19 @@ if (room == DefaultRoom){
     return
 }
 
-if (instance_exists(player)){
-    draw_sprite(spr_slime_meter, 0, view_wport/2, 70);
-    draw_set_font(SlimeNumberFont);
-    if (player.steps <= 1){
-        draw_set_color(c_red);
-    } else if (player.steps == 2){
-        draw_set_color(c_orange);
-    } else if (player.steps == 3){
-        draw_set_color(c_yellow);
-    } else{
-        draw_set_colour(c_slime);   
+var playerCount = player.in_use + copyPlayer.in_use;
+if (playerCount >= 1){
+    var has_other_meter = false;
+    var is_left = true;
+    if (playerCount == 2){
+        has_other_meter = true;
+        drawSlimeMeter(copyPlayer, has_other_meter, !is_left);
     }
-    draw_text(view_wport/2, 70, $"{instance_exists(player) ? player.steps : 0}")
-    draw_set_colour(c_white);
-    draw_set_font(DebugFont);
+    var meterOwner = player;
+    if (!player.in_use and copyPlayer.in_use){
+        meterOwner = copyPlayer;
+    }
+    drawSlimeMeter(meterOwner, has_other_meter, is_left);
 }
 
 
@@ -78,12 +76,6 @@ if (room == Room5) {
 //    draw_text(view_wport/2, 200, player.is_slipping);
 //}
 
-if (roomFailed) {
-    displayTextWithOverlay("Failure. Press R to restart.")
-}
-if (roomFinished) {
-    displayTextWithOverlay("Success! Press F to continue.")
-}
 
 if (roomNum < 10){
     tilemap_set(_overlay_tilemap_id, getTileIdOfDigit(roomNumOnes), roomLabelTileCoords[0], roomLabelTileCoords[1]);
@@ -101,4 +93,11 @@ else {
         roomLabelTileCoords[0]*TILE_HEIGHT + (TILE_HEIGHT * 3 / 2), roomLabelTileCoords[1]*TILE_HEIGHT + TILE_HEIGHT,
         2, 2, c_white, 1
     );
+}
+
+if (roomFailed) {
+    displayTextWithOverlay("Failure. Press R to restart.")
+}
+if (roomFinished) {
+    displayTextWithOverlay("Success! Press F to continue.")
 }

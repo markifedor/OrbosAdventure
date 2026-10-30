@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"clonePlayer",
+  "%Name":"copyAllPlayerProperties",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"clonePlayer",
+  "name":"copyAllPlayerProperties",
   "parent":{
     "name":"PlayerHelpers",
     "path":"folders/Scripts/PlayerHelpers.yy",

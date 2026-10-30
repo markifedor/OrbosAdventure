@@ -70,7 +70,7 @@ function move_to_tile(controller, player) {
         
     }
     
-    show_debug_message(pos_curve_channel);
+    show_debug_message(player.pos_curve_channel);
     return true;
 }
 
@@ -145,6 +145,9 @@ function update_tile_movement(controller, player) {
             if (!is_wall_bumping){
                 handleSelfUpdatingTiles(controller, id);
                 handleEndMovementMechanics(controller, id);
+                
+                var playerNum = id == controller.player ? 1 : 2;
+                show_debug_message($"Player {playerNum} steps: {steps}"); 
                 return;
             }
             is_wall_bumping = false;

@@ -129,7 +129,8 @@
         "look": 13,
         "properties": {
             "splitsOnIn": true,
-            "directionAllowSplit": "^"
+            "directionAllowSplit": "^",
+            "stepsIn": -1
         }
 
     }

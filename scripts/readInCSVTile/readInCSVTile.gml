@@ -28,6 +28,11 @@ function readInCSVTile(controller, _csv_grid, _gx, _gy){
         if (!is_undefined(props[$ "start"]) and props[$ "start"]){
             var steps = real(string_digits(_tile_csv));
             player = createPlayer(id, [_gx, _gy], steps);
+            copyPlayer = createPlayer(id, [_gx, _gy], steps);
+            player.other_player = copyPlayer;
+            copyPlayer.other_player = player;
+            
+            player.in_use = true;
         }
         if (!is_undefined(props[$ "convertOnStepCount"])){
             var stepCount = real(string_digits(_tile_csv));
