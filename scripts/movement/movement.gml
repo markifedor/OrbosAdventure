@@ -6,13 +6,17 @@ function move_to_tile(controller, player) {
         is_moving = true;
         is_travelling = true;
         move_timer = 0;
-        move_duration = 15;
+        move_duration = 13;
         pos_curve_asset = Curve_Move;
         pos_curve_channel = "move";
         
         squash_stretch_curve_asset = Curve_Squash_Stretch;
         xScale_curve_channel = "move_xScale"
         yScale_curve_channel = "move_yScale"
+        if (abs(dir[0]) == 1){
+            xScale_curve_channel = "move_yScale"
+            yScale_curve_channel = "move_xScale"
+        }
         rotation_curve_channel = "move_rotation"
         
         start_x = x;
@@ -24,15 +28,23 @@ function move_to_tile(controller, player) {
         
         var _next_dir = ds_queue_head(moveBuffer);
         if (!ds_queue_empty(moveBuffer) && array_equals(_next_dir, dir)) {
-           pos_curve_channel = "iceContinue";
-            move_duration = 8;
+            pos_curve_channel = "iceContinue";
+            xScale_curve_channel = "iceContinue_xScale";
+            yScale_curve_channel = "iceContinue_yScale";
+            rotation_curve_channel = "iceContinue_rotation";
+            move_duration = 6;
        }
         
         if (is_wall_bumping){
             show_debug_message("Doing wall bump!");
             pos_curve_channel = "wallBump";
-            xScale_curve_channel = "bump_xScale"
-            yScale_curve_channel = "bump_yScale"
+            if (abs(dir[1]) == 1){
+                xScale_curve_channel = "bump_yScale"
+                yScale_curve_channel = "bump_xScale"
+            } else {
+                xScale_curve_channel = "bump_xScale"
+                yScale_curve_channel = "bump_yScale"
+            }
             rotation_curve_channel = "bump_rotation"
             is_travelling = false;
             is_slipping = false;
@@ -55,12 +67,15 @@ function move_to_tile(controller, player) {
         if (targetSlips){
             if (is_slipping){
                 pos_curve_channel = "iceContinue";
-                move_duration = 7;
+                xScale_curve_channel = "iceContinue_xScale";
+                yScale_curve_channel = "iceContinue_yScale";
+                rotation_curve_channel = "iceContinue_rotation";
+                move_duration = 4;
             }
             else {
                 pos_curve_channel = "iceMoveStart";
                 is_slipping = true;
-                move_duration = 10;
+                move_duration = 8;
             }
         }
         else if (currentSlips){
@@ -95,39 +110,28 @@ function update_tile_movement(controller, player) {
         x = start_x + (target_x - start_x) * _pos_curve_val;
         y = start_y + (target_y - start_y) * _pos_curve_val;
         
-        if (abs(dir[0]) == 1){
-            var _xScale_channel = animcurve_get_channel(squash_stretch_curve_asset, xScale_curve_channel);
-            _xScale = animcurve_channel_evaluate(_xScale_channel, _progress);
+        var _xScale_channel = animcurve_get_channel(squash_stretch_curve_asset, xScale_curve_channel);
+        _xScale = animcurve_channel_evaluate(_xScale_channel, _progress);
         
-            var _yScale_channel = animcurve_get_channel(squash_stretch_curve_asset, yScale_curve_channel);
-            _yScale = animcurve_channel_evaluate(_yScale_channel, _progress);
+        var _yScale_channel = animcurve_get_channel(squash_stretch_curve_asset, yScale_curve_channel);
+        _yScale = animcurve_channel_evaluate(_yScale_channel, _progress);
         
-            var _rotation_channel = animcurve_get_channel(squash_stretch_curve_asset, rotation_curve_channel);
-            _rotation = animcurve_channel_evaluate(_rotation_channel, _progress) * dir[0];    
-        }
-        else if (abs(dir[1]) == 1){
-            var _xScale_channel = animcurve_get_channel(squash_stretch_curve_asset, xScale_curve_channel);
-            _yScale = animcurve_channel_evaluate(_xScale_channel, _progress);
+        var _rotation_channel = animcurve_get_channel(squash_stretch_curve_asset, rotation_curve_channel);
+        _rotation = dir[0] * animcurve_channel_evaluate(_rotation_channel, _progress);    
         
-            var _yScale_channel = animcurve_get_channel(squash_stretch_curve_asset, yScale_curve_channel);
-            _xScale = animcurve_channel_evaluate(_yScale_channel, _progress);
-        
-            var _rotation_channel = animcurve_get_channel(squash_stretch_curve_asset, rotation_curve_channel);
-            _rotation = animcurve_channel_evaluate(_rotation_channel, _progress) * dir[0];    
-        }
         
         if (is_travelling and move_timer == int64(move_duration*.1)){
             // Trigger out mechanics
             handleCurrentTile(controller, id);
         }
         
-        if (is_travelling and move_timer == int64(move_duration*.6)){
+        if (is_travelling and move_timer == int64(move_duration*.5)){
             // Trigger in mechanics
             handleTargetTile(controller, id);
             start_y = y - (dir[1] * _pos_curve_val * controller.TILE_HEIGHT);
         }
         
-        if (is_travelling and move_timer == int64(move_duration*.8)){
+        if (is_travelling and move_timer == int64(move_duration*.6)){
             // Trigger sliming
             handleSlimingIn(controller, id);
         }
@@ -143,7 +147,7 @@ function update_tile_movement(controller, player) {
             correctedCoors = getCorrectPlayerCoors(controller, player.pos, player.radius, false);
             player.y = correctedCoors[1];
             if (!is_wall_bumping){
-                handleSelfUpdatingTiles(controller, id);
+                handleSelfUpdatingTiles(controller);
                 handleEndMovementMechanics(controller, id);
                 
                 var playerNum = id == controller.player ? 1 : 2;

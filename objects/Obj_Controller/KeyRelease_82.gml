@@ -1,5 +1,5 @@
 if (room == DefaultRoom){
-    room_goto(0);
+    room_goto(Room1);
     return;
 }
 room_restart();

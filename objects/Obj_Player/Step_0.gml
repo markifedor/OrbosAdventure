@@ -1,6 +1,4 @@
-if (!in_use){
-    return;
-}
+if (!in_use){ return; }
 
 if (is_dying) {
     changePlayerSteps(id, controller, steps div 2);
@@ -37,7 +35,11 @@ if (!controller.roomFinished and !controller.roomFailed) {
 if(is_moving){
     update_tile_movement(controller, id);
     if(!is_moving and pos != pos_before_move){
-        pos_before_move = pos;
+        var currentTile = controller.tiles[# pos[0], pos[1]]
+        // Only update pos_before_move if tile you're on is safe
+        if (is_undefined(currentTile[$ "properties"][$ "convertOnNotStepCount"])){
+            pos_before_move = pos;
+        }
     }
     
     return;
