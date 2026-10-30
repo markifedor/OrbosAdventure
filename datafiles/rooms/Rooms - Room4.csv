@@ -1,14 +1,13 @@
 ,,,,,,,,,,,,
 ,R,,,,,,,,,,,
-,,,,,,,,,,,,
 ,,,X,X,X,X,X,X,X,X,X,X
 ,,,X,X,X,X,X,X,X,X,X,X
 ,,,X,X,X,W,W,W,X,X,X,X
 ,,,X,X,X,W,O,W,X,X,X,X
 ,,,X,X,X,X,O,X,X,X,X,X
 ,,,X,X,X,X,O,X,X,X,X,X
-,,,X,X,X,X,O,W,O,O,WF,OL
-,,,X,X,X,O,W,X,X,X,X,X
+,,,X,X,X,X,O,W,O,O,WF,X
+,,,X,X,X,O,W,X,X,X,W,O
 ,,,X,W,O,W,O,X,X,X,X,X
 ,,,X,O,W,X,X,X,X,X,X,X
 ,,,X,S2L,X,X,X,X,X,X,X,X
