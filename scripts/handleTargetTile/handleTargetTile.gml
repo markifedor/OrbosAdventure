@@ -34,41 +34,28 @@ function canMoveToTargetTile(controller, player){
 
 function handleTargetTile(controller, player){
     with (player) {
-        
-        // Obtain Tile
-        var targetTile = controller.tiles[# targetTilePos[0], targetTilePos[1]];
         if (!canMoveToTargetTile(controller, player)){
             return;
         }
         
-        var targetOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]]
+        // Obtain Tile
         
-        if (typeof(targetTile) != "struct"){
-            return false;
+        var tileVars = getTile(controller, player.targetTilePos);
+        var targetTile = tileVars[0];
+        var props = tileVars[1];
+        var overlayExists = tileVars[2];
+        var targetOverlayTile = tileVars[3];
+        var overlayProps = tileVars[4];
+        
+        var ignoreSteps = getTileProperty("ignoreSteps", targetTile, overlayExists, targetOverlayTile);
+        
+        var ignoreStepsFiery = getTileProperty("ignoreStepsFiery", targetTile, overlayExists, targetOverlayTile);
+        
+        if (is_fiery and !is_undefined((ignoreStepsFiery))){
+            ignoreSteps = ignoreStepsFiery;
         }
         
-        // Check Properties of Tile (and OverlayTile)
-        var props = targetTile[$ "properties"];
-        var overlayProps;
-        
-        var ignoreSteps = false;
-        
-        if (!is_undefined(props[$ "ignoreSteps"])){
-            ignoreSteps = props[$ "ignoreSteps"];
-        }
-        
-        
-        var overlayExists = false;
-        if (typeof(targetOverlayTile) == "struct"){
-            overlayExists = true;
-            overlayProps = targetOverlayTile[$ "properties"];
-            if (!is_undefined(overlayProps[$ "ignoreSteps"])){
-                // overlay overrides normal ignore steps properties
-                ignoreSteps = overlayProps[$ "ignoreSteps"];
-            }
-        }
-        
-        var killsOnIn = props[$ "killsOnIn"];
+        var killsOnIn = getTileProperty("killsOnIn", targetTile, overlayExists, targetOverlayTile);
         if (!is_undefined(killsOnIn) and killsOnIn){
             is_dying = true;
         }
@@ -115,30 +102,41 @@ function handleTargetTile(controller, player){
             return;
         }
         
-        var stepsIn = props[$ "stepsIn"];
+        var ignoreConvertOnIn = false; 
+        var causesFieryEffect = getTileProperty("causesFieryEffect", targetTile, overlayExists, targetOverlayTile);
+        if (!is_undefined(causesFieryEffect) and causesFieryEffect){
+            if (player.is_fiery){
+                ignoreConvertOnIn = true;
+            }
+            else{
+                player.is_fiery = true;
+            }
+        }
+        
+        var convertOnInFiery = getTileProperty("convertOnInFiery", targetTile, overlayExists, targetOverlayTile);
+        if (!is_undefined(convertOnInFiery) and player.is_fiery){
+            player.is_fiery = false;
+            readInCSVTile(controller, convertOnInFiery, targetTilePos[0], targetTilePos[1]);
+            handleTargetTile(controller, player);
+            return;
+        }
+        
+        var stepsIn = getTileProperty("stepsIn", targetTile, overlayExists, targetOverlayTile, true);
         if (!is_undefined(stepsIn) and !ignoreSteps){
             changePlayerSteps(player, controller, player.steps + stepsIn);
         }
         
         // Handle Level Finish
-        if (overlayExists and !is_undefined(overlayProps[$ "finish"]) and overlayProps[$ "finish"] == true){
+        if (overlayExists and !is_undefined(overlayProps[$ "finish"]) and overlayProps[$ "finish"]){
             controller.roomFinished = true;
             targetTile = variable_clone(targetTile);
             props[$ "convertOnIn"] = overlayProps[$ "convertOnIn"]
         }
         
-        var convertOnIn = props[$ "convertOnIn"];
-        if (!is_undefined(convertOnIn)){
-            var newLook;
-            if (is_real(convertOnIn)){
-                newLook = convertOnIn;
-            } else {
-                targetTile = controller._csv_to_tile_struct[$ convertOnIn];
-                newLook = targetTile[$ "look"];
-                controller.tiles[# targetTilePos[0], targetTilePos[1]] = targetTile;
-            }
-            
-            tilemap_set(controller._tilemap_id, newLook, targetTilePos[0], targetTilePos[1]);
+        var convertOnIn = getTileProperty("convertOnIn", targetTile, overlayExists, targetOverlayTile);
+        if (!is_undefined(convertOnIn) and !ignoreConvertOnIn){
+            readInCSVTile(controller, convertOnIn, targetTilePos[0], targetTilePos[1]);
+            tileVars = getTile(controller, player.targetTilePos);
         }
         
         return true;
@@ -148,11 +146,17 @@ function handleTargetTile(controller, player){
 function handleSlimingIn(controller, player){
     with (player) {
         var targetTile = controller.tiles[# targetTilePos[0], targetTilePos[1]];
-        var props = targetTile[$ "properties"];
+        var props = undefined;
+        if (!is_undefined(targetTile)){
+            props = targetTile[$ "properties"];
+        }
         
         var targetOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]];
-        var overlayProps = targetOverlayTile[$ "properties"];
-        
+        var overlayProps = undefined;
+        if (!is_undefined(targetOverlayTile)){
+            overlayProps = targetOverlayTile[$ "properties"];
+        }
+            
         var overlayExists = false;
         if (typeof(targetOverlayTile) == "struct"){
             overlayExists = true;
@@ -171,5 +175,5 @@ function handleSlimingIn(controller, player){
             currentOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]];
             tilemap_set(controller._overlay_tilemap_id, currentOverlayTile[$ "look"], targetTilePos[0], targetTilePos[1]);
         }
-    } 
+    }
 }

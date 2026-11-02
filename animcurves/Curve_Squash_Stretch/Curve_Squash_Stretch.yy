@@ -4,9 +4,9 @@
   "channels":[
     {"$GMAnimCurveChannel":"","%Name":"move_xScale","colour":4290799884,"name":"move_xScale","points":[
         {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.0,"y":1.0,},
-        {"th0":-0.05,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.2,"y":0.92,},
-        {"th0":-0.1,"th1":0.037543,"tv0":0.0,"tv1":0.0,"x":0.6,"y":0.92,},
-        {"th0":-0.050000012,"th1":0.028811991,"tv0":-0.01615997,"tv1":0.009362876,"x":0.85,"y":1.08,},
+        {"th0":-0.05,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.2,"y":0.9,},
+        {"th0":-0.1,"th1":0.037543,"tv0":0.0,"tv1":0.0,"x":0.6,"y":0.9,},
+        {"th0":-0.050000012,"th1":0.028811991,"tv0":-0.01615997,"tv1":0.009362876,"x":0.85,"y":1.1,},
         {"th0":-0.024914026,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":1.0,},
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
     {"$GMAnimCurveChannel":"","%Name":"move_rotation","colour":4281581338,"name":"move_rotation","points":[
@@ -17,9 +17,9 @@
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
     {"$GMAnimCurveChannel":"","%Name":"move_yScale","colour":4280168127,"name":"move_yScale","points":[
         {"th0":-0.1,"th1":0.01927687,"tv0":0.0,"tv1":0.0,"x":0.0,"y":1.0,},
-        {"th0":0.0,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.2,"y":1.08,},
-        {"th0":-0.1,"th1":0.03826922,"tv0":0.0,"tv1":0.0,"x":0.6,"y":1.08,},
-        {"th0":-0.0881744,"th1":0.027030528,"tv0":0.02198553,"tv1":-0.0067458153,"x":0.85,"y":0.92,},
+        {"th0":0.0,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.2,"y":1.1,},
+        {"th0":-0.1,"th1":0.03826922,"tv0":0.0,"tv1":0.0,"x":0.6,"y":1.1,},
+        {"th0":-0.0881744,"th1":0.027030528,"tv0":0.02198553,"tv1":-0.0067458153,"x":0.85,"y":0.9,},
         {"th0":-0.02346152,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":1.0,},
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
     {"$GMAnimCurveChannel":"","%Name":"bump_xScale","colour":4279234797,"name":"bump_xScale","points":[

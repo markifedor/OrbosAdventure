@@ -9,7 +9,12 @@ function handleEndMovementMechanics(controller, player) {
         
         if (is_struct(currentOverlayTile)) {
             overlayProps = currentOverlayTile[$ "properties"];
-            var slipToNextTile = overlayProps[$ "slipToNextTile"];
+            
+            var slippingProperty = "slipToNextTile";
+            if(is_fiery){
+                slippingProperty = "slipToNextTileFiery";
+            }
+            var slipToNextTile = overlayProps[$ slippingProperty];
             
             if (!is_undefined(slipToNextTile) && slipToNextTile) {
                 targetTilePos = [pos[0] + dir[0], pos[1] + dir[1]];

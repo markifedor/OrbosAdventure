@@ -30,6 +30,7 @@ is_moving = false;
 changedTarget = false;
 
 is_slipping = false;
+is_fiery = false;
 
 is_wall_bumping = false;
 bump_dir_x = 0;

@@ -51,20 +51,44 @@ function move_to_tile(controller, player) {
             return true;
         }
         
-        var currentOverlayProps = controller.overlayTiles[# pos[0], pos[1]][$ "properties"];
-        var targetOverlayProps = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]][$ "properties"];
-        
-        var currentSlips = false
-        if (!is_undefined(currentOverlayProps) and !is_undefined(currentOverlayProps[$ "slipToNextTile"])){
-            currentSlips = currentOverlayProps[$ "slipToNextTile"];
+        var currentOverlayTile = controller.overlayTiles[# pos[0], pos[1]];
+        var currentOverlayProps = undefined;
+        if (!is_undefined(currentOverlayTile)){
+            currentOverlayProps = currentOverlayTile[$ "properties"];    
         }
          
-        var targetSlips = false
-        if (!is_undefined(targetOverlayProps) and !is_undefined(targetOverlayProps[$ "slipToNextTile"])){
-            targetSlips = targetOverlayProps[$ "slipToNextTile"];
+        var targetOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]];
+        var targetOverlayProps = undefined;
+        if (!is_undefined(targetOverlayTile)){
+            targetOverlayProps = targetOverlayTile[$ "properties"];
         }
+        
+        var slippingProperty = "slipToNextTile";
+        if(is_fiery){
+            slippingProperty = "slipToNextTileFiery";
+        }
+        
+        show_debug_message($"slippingProperty: {slippingProperty}");
+        
+        var currentSlips = false
+        if (!is_undefined(currentOverlayProps)){
+            if (!is_undefined(currentOverlayProps[$ slippingProperty])){
+                currentSlips = currentOverlayProps[$ slippingProperty];
+            }
+        }
+        
+        var targetSlips = false
+        if (!is_undefined(targetOverlayProps)){
+            if (!is_undefined(targetOverlayProps[$ slippingProperty])){
+                targetSlips = targetOverlayProps[$ slippingProperty];
+            }
+        }
+        
+        show_debug_message($"currentSlips: {currentSlips}");
+        show_debug_message($"targetSlips: {targetSlips}");
             
         if (targetSlips){
+            show_debug_message("we're slipping");
             if (is_slipping){
                 pos_curve_channel = "iceContinue";
                 xScale_curve_channel = "iceContinue_xScale";
@@ -81,8 +105,7 @@ function move_to_tile(controller, player) {
         else if (currentSlips){
             pos_curve_channel = "iceMoveEnd";
             is_slipping = false;
-        }
-        
+        }    
     }
     
     show_debug_message(player.pos_curve_channel);

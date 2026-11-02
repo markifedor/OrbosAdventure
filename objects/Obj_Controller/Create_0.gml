@@ -72,7 +72,8 @@ var _height = ds_grid_height(_csv_grid);
 
 for (var _gx = 0; _gx < _width; _gx++){
     for (var _gy = 0; _gy < _height; _gy++){
-        readInCSVTile(id, _csv_grid, _gx, _gy);
+        var _tile_csv = string_trim(_csv_grid[# _gx, _gy]);
+        readInCSVTile(id, _tile_csv, _gx, _gy);
     }
 }
 

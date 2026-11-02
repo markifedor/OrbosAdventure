@@ -1,27 +1,31 @@
-function readInCSVTile(controller, _csv_grid, _gx, _gy){
-    var _tile_csv = string_trim(_csv_grid[# _gx, _gy]);
+function readInCSVTile(controller, _tile_csv, _gx, _gy){
     if (_tile_csv == ""){
         controller.tiles[# _gx, _gy] = undefined;
+        tilemap_set(controller._tilemap_id, 0, _gx, _gy);
+        
+        controller.overlayTiles[# _gx, _gy] = undefined;
+        tilemap_set(controller._overlay_tilemap_id, 0, _gx, _gy);
         return;
     }
     
     var _tile_struct = controller._csv_to_tile_struct[$ string_char_at(_tile_csv, 1)];
-    if (is_undefined(_tile_struct)){
-        show_error("Undefined tile CSV id at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") of " + room_get_name(room) + ": \"" + _csv_grid[# _gx, _gy] + "\"", true);
+    if (typeof(_tile_struct) != "struct"){
+        show_error("Undefined tile CSV id at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") of " + room_get_name(room) + ": \"" + _tile_csv + "\"", true);
     }
+    
+    var _overlay_struct = undefined;
+    var overlay_look = 0;
     if (string_length(string_letters(_tile_csv)) >= 2){
-        var _overlay_struct = controller._csv_to_tile_struct[$ string_char_at(string_letters(_tile_csv), 2)]
-        if (!(is_undefined(_overlay_struct))){
-            if (_overlay_struct[$ "properties"][$ "overlay"]){
-                controller.overlayTiles[# _gx, _gy] = _overlay_struct;
-                tilemap_set(controller._overlay_tilemap_id, _overlay_struct[$ "look"], _gx, _gy);   
+        _overlay_struct = controller._csv_to_tile_struct[$ string_char_at(string_letters(_tile_csv), 2)]
+        if (typeof(_overlay_struct) == "struct"){
+            if (!_overlay_struct[$ "properties"][$ "overlay"]){
+                show_error("Non-Overlay Tile placed in overlay slot at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") of " + room_get_name(room) + ": \"" + _tile_csv + "\"", true);
             }
-            else {
-                show_error("Non-Overlay Tile placed in overlay slot at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") of " + room_get_name(room) + ": \"" + _csv_grid[# _gx, _gy] + "\"", true);
-            }
+            overlay_look = _overlay_struct[$ "look"];
         }
-        
     }
+    controller.overlayTiles[# _gx, _gy] = _overlay_struct;
+    tilemap_set(controller._overlay_tilemap_id, overlay_look, _gx, _gy);   
     
     if (!is_undefined(_tile_struct[$ "properties"])){
         var props =  _tile_struct[$ "properties"];
@@ -53,7 +57,7 @@ function readInCSVTile(controller, _csv_grid, _gx, _gy){
             }
             var directionAllowSplit = string_char_at( _tile_csv, 2);
             if (directionAllowSplit = ""){
-                show_error("splitsOnIn Tile at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") has no directionAllowSplit" + ": \"" + _csv_grid[# _gx, _gy] + "\"", true);
+                show_error("splitsOnIn Tile at (" + chr(ord("A")+_gx) + ", " + string(1+_gy) + ") has no directionAllowSplit" + ": \"" + _tile_csv + "\"", true);
             }
             show_debug_message(directionAllowSplit);
             _tile_struct = variable_clone(_tile_struct);

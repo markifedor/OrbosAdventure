@@ -31,6 +31,7 @@
         "properties": {
             "stepsIn": 1,
             "convertOnIn": "w",
+            "convertOnInFiery": "O",
             "slimedIn": true,
             "slimedOut": false
         }
@@ -64,7 +65,7 @@
     },
     "S": {
         "name": "start",
-        "look": 1,
+        "look": 6,
         "properties": {
             "start": true,
             "slimedIn": false,
@@ -107,7 +108,9 @@
             "ignoreSteps": true,
             "slimedIn": false,
             "slimedOut": false,
-            "slipToNextTile": true
+            "slipToNextTile": true,
+            "slipToNextTileFiery": false,
+            "convertOnInFiery": "W"
         }
     },
     "E": {
@@ -129,9 +132,19 @@
         "look": 13,
         "properties": {
             "splitsOnIn": true,
-            "directionAllowSplit": "^",
-            "stepsIn": -1
+            "directionAllowSplit": "^"
         }
 
+    },
+    "B": {
+        "name": "blaze",
+        "look":17,
+        "properties": {
+            "overlay": true,
+            "causesFieryEffect": true,
+            "ignoreStepsFiery": true,
+            "stepsIn": -1,
+            "convertOnIn": "O"
+        }
     }
 }

@@ -50,6 +50,9 @@ if (other_player.in_use) {
         hueShift += 10;
     }
 }
+if (is_fiery){
+    hueShift -= 100;
+}
 var draw_outline_color = color_shift_hsv(outline_color, hueShift, 0, 0);
 var draw_main_color    = color_shift_hsv(main_color, hueShift, 0, 0);
 var draw_outer_color   = color_shift_hsv(outer_color, hueShift, 0, 0);
