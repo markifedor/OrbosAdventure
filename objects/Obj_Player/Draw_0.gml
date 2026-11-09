@@ -2,6 +2,19 @@ if (!in_use) { return; }
 
 var _target_fps = game_get_speed(gamespeed_fps);
 
+if (is_dying or is_wall_bumping){
+    face_sprite = spr_face_pain;
+}
+else if (is_slipping){
+    face_sprite = spr_face_joyous;   
+}
+else if (is_fiery) {
+    face_sprite = spr_face_fiery;
+}
+else {
+    face_sprite = spr_face_neutral;
+}
+
 if (!is_moving) {
     squish_counter++;
     if (squish_counter mod 5 == 0) {
@@ -41,21 +54,10 @@ if (!surface_exists(slime_surf) || surface_get_width(slime_surf) < _surf_size) {
 surface_set_target(slime_surf);
 draw_clear_alpha(c_black, 0);
 
-var hueShift = 0;
-if (other_player.in_use) {
-    if (id == controller.player) {
-        hueShift -= 10;
-    }
-    if (id == controller.copyPlayer) {
-        hueShift += 10;
-    }
-}
-if (is_fiery){
-    hueShift -= 100;
-}
-var draw_outline_color = color_shift_hsv(outline_color, hueShift, 0, 0);
-var draw_main_color    = color_shift_hsv(main_color, hueShift, 0, 0);
-var draw_outer_color   = color_shift_hsv(outer_color, hueShift, 0, 0);
+var orboColors = getOrboColors(id);
+var draw_outline_color = orboColors[0];
+var draw_main_color    = orboColors[1];
+var draw_outer_color   = orboColors[2];
 
 var _bottom_y = _surf_size - outlineSize - 2;
 
@@ -63,6 +65,19 @@ draw_set_color(draw_outline_color);
 draw_circle(_center, _bottom_y - radius, radius + outlineSize, false);
 
 draw_circle_colour(_center, _bottom_y - radius, radius, draw_main_color, draw_outer_color, false);
+
+if (steps > 1) {
+    if (array_equals(dir, [1, 0])) { face_rot = 90; }
+    if (array_equals(dir, [0, 1])) { face_rot = 0; }
+    if (array_equals(dir, [-1, 0])) { face_rot = 270; }
+    if (array_equals(dir, [0, -1])) { face_rot = 180;}
+    
+    draw_sprite_ext(face_sprite, 0, _center, _bottom_y-radius*2/3, 1, 1, face_rot, c_white, 1);
+}
+else{
+    draw_point_colour(_center-2, _bottom_y-radius*2/3, c_black);
+    draw_point_colour(_center+2, _bottom_y-radius*2/3, c_black);
+}
 surface_reset_target();
 
 // 3. Transform surface using GPU Matrix (anchors pivot directly to bottom floor pixel)

@@ -44,11 +44,7 @@ function handleSelfUpdatingTiles(controller){
                     var convertedTile = tiles[# _gx, _gy];
                     var convertedProps = convertedTile[$ "properties"];
                     
-                    if (convertedProps[$ "stepCountVisible"]){
-                        tilemap_set(_overlay_tilemap_id, getTileIdOfDigit(convertedProps[$ "stepCount"]), _gx, _gy);  
-                    } else {
-                        tilemap_set(_overlay_tilemap_id, 0, _gx, _gy);
-                    }
+                    tilemap_set(_overlay_tilemap_id, getTileIdOfDigit(convertedProps[$ "stepCount"], convertedProps[$ "stepCountVisible"]), _gx, _gy);  
                     tilemap_set(_tilemap_id, convertedTile[$ "look"], _gx, _gy);
                 }    
             }

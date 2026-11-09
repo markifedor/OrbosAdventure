@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"getOrboColor",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"getOrboColor",
+  "parent":{
+    "name":"PlayerHelpers",
+    "path":"folders/Scripts/PlayerHelpers.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

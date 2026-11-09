@@ -40,6 +40,7 @@ if(is_moving){
         if (is_undefined(currentTile[$ "properties"][$ "convertOnNotStepCount"])){
             pos_before_move = pos;
         }
+        was_fiery_before_move = is_fiery;
     }
     
     return;
@@ -70,8 +71,3 @@ if (!is_slipping and !controller.roomFinished and !controller.roomFailed) {
         move_to_tile(controller, id);
     }
 }
-
-//if (sprite_index == spr_player_walk_down) sprite_index = spr_player_idle_down;
-//if (sprite_index == spr_player_walk_up) sprite_index = spr_player_idle_up;
-//if (sprite_index == spr_player_walk_right) sprite_index = spr_player_idle_right;
-//if (sprite_index == spr_player_walk_left) sprite_index = spr_player_idle_left;

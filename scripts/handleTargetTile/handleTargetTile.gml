@@ -70,35 +70,37 @@ function handleTargetTile(controller, player){
             copyAllPlayerProperties(player, player.other_player);
             
             changePlayerSteps(player.other_player, controller, steps div 2);
-            
             if (steps mod 2 == 0){
                 changePlayerSteps(player, controller, steps div 2);
             } else {
                 changePlayerSteps(player, controller, steps div 2 + 1); 
             }
             
+            controller.playerStepsMeter = controller.player.steps;
+            controller.copyPlayerStepsMeter = controller.copyPlayer.steps;
+            
             switch(directionAllowSplit){
                 case "^":
-                    controller.copyPlayer.targetTilePos[0] -= 1;
+                    player.other_player.targetTilePos[0] -= 1;
                     player.targetTilePos[0] += 1;
                     break;
                 case ">":
-                    controller.copyPlayer.targetTilePos[1] -= 1;
+                    player.other_player.targetTilePos[1] -= 1;
                     player.targetTilePos[1] += 1;
                     break;
                 case "v":
-                    controller.copyPlayer.targetTilePos[0] += 1;
+                    player.other_player.targetTilePos[0] += 1;
                     player.targetTilePos[0] -= 1;
                     break;
                 case "<":
-                    controller.copyPlayer.targetTilePos[1] += 1;
+                    player.other_player.targetTilePos[1] += 1;
                     player.targetTilePos[1] -= 1;
                     break;
             }
-            controller.copyPlayer.changedTarget = true;
+            player.other_player.changedTarget = true;
             changedTarget = true;
             handleTargetTile(controller, player);
-            handleTargetTile(controller, controller.copyPlayer);
+            handleTargetTile(controller, player.other_player);
             return;
         }
         
@@ -114,8 +116,11 @@ function handleTargetTile(controller, player){
         }
         
         var convertOnInFiery = getTileProperty("convertOnInFiery", targetTile, overlayExists, targetOverlayTile);
+        var doNotRemoveFiery = getTileProperty("doNotRemoveFiery", targetTile, overlayExists, targetOverlayTile);
         if (!is_undefined(convertOnInFiery) and player.is_fiery){
-            player.is_fiery = false;
+            if (is_undefined(doNotRemoveFiery) or !doNotRemoveFiery){
+                player.is_fiery = false;
+            }
             readInCSVTile(controller, convertOnInFiery, targetTilePos[0], targetTilePos[1]);
             handleTargetTile(controller, player);
             return;
@@ -146,32 +151,28 @@ function handleTargetTile(controller, player){
 function handleSlimingIn(controller, player){
     with (player) {
         var targetTile = controller.tiles[# targetTilePos[0], targetTilePos[1]];
-        var props = undefined;
-        if (!is_undefined(targetTile)){
-            props = targetTile[$ "properties"];
-        }
-        
         var targetOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]];
-        var overlayProps = undefined;
-        if (!is_undefined(targetOverlayTile)){
-            overlayProps = targetOverlayTile[$ "properties"];
-        }
-            
         var overlayExists = false;
         if (typeof(targetOverlayTile) == "struct"){
             overlayExists = true;
         }
         
-        var slimedIn = props[$ "slimedIn"];
-        if (overlayExists){
-            var overlaySlimedIn = overlayProps[$ "slimedIn"];
-            if (!is_undefined(overlaySlimedIn)){
-                slimedIn = overlaySlimedIn; // Overlay determines Sliming properties
-            }
+        var slimedIn;
+        if (was_fiery_before_move){
+            slimedIn = getTileProperty("slimedInFiery", targetTile, overlayExists, targetOverlayTile);
+        }
+        else{
+            
+            slimedIn = getTileProperty("slimedIn", targetTile, overlayExists, targetOverlayTile);
+        }
+        
+        var newOverlayTile = "L";
+        if (is_fiery){
+            newOverlayTile = "B";
         }
         
         if(!is_undefined(slimedIn) and slimedIn){
-            controller.overlayTiles[# targetTilePos[0], targetTilePos[1]] = controller._csv_to_tile_struct[$ "L"];
+            controller.overlayTiles[# targetTilePos[0], targetTilePos[1]] = controller._csv_to_tile_struct[$ newOverlayTile];
             currentOverlayTile = controller.overlayTiles[# targetTilePos[0], targetTilePos[1]];
             tilemap_set(controller._overlay_tilemap_id, currentOverlayTile[$ "look"], targetTilePos[0], targetTilePos[1]);
         }

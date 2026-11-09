@@ -1,4 +1,4 @@
-main_color = #2DE5A4;
+main_color = #09f2a0;
 outer_color = color_shift_hsv(main_color, 5, 5, -40);
 outline_color = color_shift_hsv(main_color, 8, 7, -75);
 
@@ -15,7 +15,6 @@ moveBuffer = ds_queue_create();
 
 steps = -1;
 radius = -1;
-max_steps = 16;
 
 squish_counter = 0;
 _draw_y = y;
@@ -26,11 +25,16 @@ _yScale = 1;
 _y_offset = 0;
 _rotation = 0;
 
+face_sprite = spr_face_neutral;
+face_rot = 0;
+
 is_moving = false;
 changedTarget = false;
 
 is_slipping = false;
+final_slip = false;
 is_fiery = false;
+was_fiery_before_move = false; 
 
 is_wall_bumping = false;
 bump_dir_x = 0;

@@ -154,7 +154,7 @@ function update_tile_movement(controller, player) {
             start_y = y - (dir[1] * _pos_curve_val * controller.TILE_HEIGHT);
         }
         
-        if (is_travelling and move_timer == int64(move_duration*.6)){
+        if (is_travelling and move_timer == int64(move_duration*.7)){
             // Trigger sliming
             handleSlimingIn(controller, id);
         }

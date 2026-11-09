@@ -55,13 +55,56 @@ if (playerCount >= 1){
     var is_left = true;
     if (playerCount == 2){
         has_other_meter = true;
-        drawSlimeMeter(copyPlayer, has_other_meter, !is_left);
+        drawSlimeMeter(copyPlayer, has_other_meter, !is_left, copyPlayerStepsMeter, meterUpdateTimer, copyPlayerGrowing, copyPlayerShrinking);
     }
     var meterOwner = player;
+    var stepsVar = playerStepsMeter;
+    var growingVar = playerGrowing;
+    var shrinkingVar = playerShrinking;
     if (!player.in_use and copyPlayer.in_use){
         meterOwner = copyPlayer;
+        stepsVar = copyPlayerStepsMeter;
+        growingVar = copyPlayerGrowing;
+        shrinkingVar = copyPlayerShrinking;
     }
-    drawSlimeMeter(meterOwner, has_other_meter, is_left);
+    drawSlimeMeter(meterOwner, has_other_meter, is_left, stepsVar, meterUpdateTimer, growingVar, shrinkingVar);
+    
+    if (meterUpdateTimer == 0){
+        if (playerStepsMeter < player.steps) { 
+            playerStepsMeter++;
+            playerGrowing = true;
+            playerShrinking = false;
+        }
+        else if (playerStepsMeter > player.steps) { 
+            playerStepsMeter--; 
+            playerGrowing = false;
+            playerShrinking = true;
+        }
+        else {
+            playerGrowing = false;
+            playerShrinking = false;
+        }
+        
+        if (copyPlayerStepsMeter < copyPlayer.steps) { 
+            copyPlayerStepsMeter++;
+            copyPlayerGrowing = true;
+            copyPlayerShrinking = false;
+        }
+        else if (copyPlayerStepsMeter > copyPlayer.steps) { 
+            copyPlayerStepsMeter--; 
+            copyPlayerGrowing = false;
+            copyPlayerShrinking = true;
+        }
+        else {
+            copyPlayerGrowing = false;
+            copyPlayerShrinking = false;
+        }
+        
+        meterUpdateTimer = meterUpdateTime;
+    }
+    if (meterUpdateTimer > 0){
+        meterUpdateTimer--;
+    }
 }
 
 

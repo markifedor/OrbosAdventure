@@ -5,7 +5,7 @@ draw_set_halign(fa_center);
 font_enable_effects(SlimeNumberFont, true, {
     outlineEnable: true,
     outlineDistance: 5,
-    outlineColour: c_gray
+    outlineColour: #A5A5A5
 });
 
 // Public Variables
@@ -35,9 +35,20 @@ _border_tilemap_id = layer_tilemap_get_id(_borderTiles_layer_id);
 TILE_HEIGHT = tilemap_get_tile_height(_tilemap_id);
 
 player = noone;
+playerStepsMeter = -1;
+playerGrowing = false;
+playerShrinking = false;
+
 copyPlayer = noone;
+copyPlayerStepsMeter = -1;
+copyPlayerGrowing = false;
+copyPlayerShrinking = false;
+
 roomFinished = false;
 roomFailed = false;
+
+meterUpdateTime = game_get_speed(gamespeed_fps) div 6;
+meterUpdateTimer = meterUpdateTime;
 
 selfUpdatingTilesCoords = ds_list_create();
 

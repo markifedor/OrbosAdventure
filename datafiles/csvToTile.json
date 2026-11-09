@@ -13,6 +13,7 @@
         "properties": {
             "stepsIn": -1,
             "slimedIn": true,
+            "slimedInFiery": true,
             "slimedOut": false
         }
     },
@@ -51,16 +52,10 @@
         "name": "finish",
         "look": 2,
         "properties": {
-            "convertOnIn": "f",
+            "convertOnIn": "wF",
+            "convertOnInFiery": "OF",
             "overlay": true,
             "finish": true
-        }
-    },
-    "f": {
-        "name": "obtained finish",
-        "look": 10,
-        "properties": {
-            "slimedIn": true
         }
     },
     "S": {
@@ -97,6 +92,8 @@
         "look": 7,
         "properties": {
             "overlay": true,
+            "convertOnInFiery": "O",
+            "doNotRemoveFiery": true,
             "ignoreSteps": true
         }
     },
@@ -144,7 +141,7 @@
             "causesFieryEffect": true,
             "ignoreStepsFiery": true,
             "stepsIn": -1,
-            "convertOnIn": "O"
+            "slimedInFiery": false
         }
     }
 }
