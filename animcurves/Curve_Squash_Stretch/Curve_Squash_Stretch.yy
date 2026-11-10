@@ -4,9 +4,9 @@
   "channels":[
     {"$GMAnimCurveChannel":"","%Name":"move_xScale","colour":4290799884,"name":"move_xScale","points":[
         {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.0,"y":1.0,},
-        {"th0":-0.05,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.2,"y":0.9,},
-        {"th0":-0.1,"th1":0.037543,"tv0":0.0,"tv1":0.0,"x":0.6,"y":0.9,},
-        {"th0":-0.050000012,"th1":0.028811991,"tv0":-0.01615997,"tv1":0.009362876,"x":0.85,"y":1.1,},
+        {"th0":-0.073929474,"th1":0.099942006,"tv0":0.0055363774,"tv1":-0.0074843857,"x":0.2,"y":0.8,},
+        {"th0":-0.1,"th1":0.037543,"tv0":0.0,"tv1":0.0,"x":0.5,"y":0.8,},
+        {"th0":-0.09031282,"th1":0.06311703,"tv0":-0.0051608887,"tv1":0.0036067963,"x":0.7,"y":1.2,},
         {"th0":-0.024914026,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":1.0,},
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
     {"$GMAnimCurveChannel":"","%Name":"move_rotation","colour":4281581338,"name":"move_rotation","points":[
@@ -16,16 +16,16 @@
         {"th0":-0.18458438,"th1":0.1,"tv0":-1.5937854,"tv1":0.0,"x":1.0,"y":0.0,},
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
     {"$GMAnimCurveChannel":"","%Name":"move_yScale","colour":4280168127,"name":"move_yScale","points":[
-        {"th0":-0.1,"th1":0.01927687,"tv0":0.0,"tv1":0.0,"x":0.0,"y":1.0,},
-        {"th0":0.0,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.2,"y":1.1,},
-        {"th0":-0.1,"th1":0.03826922,"tv0":0.0,"tv1":0.0,"x":0.6,"y":1.1,},
-        {"th0":-0.0881744,"th1":0.027030528,"tv0":0.02198553,"tv1":-0.0067458153,"x":0.85,"y":0.9,},
+        {"th0":-0.1,"th1":0.0860275,"tv0":0.0,"tv1":0.056740284,"x":0.0,"y":1.0,},
+        {"th0":-0.075566754,"th1":0.1,"tv0":-0.011072636,"tv1":0.0,"x":0.2,"y":1.2,},
+        {"th0":-0.1,"th1":0.03826922,"tv0":0.0,"tv1":0.0,"x":0.5,"y":1.2,},
+        {"th0":-0.088719845,"th1":0.08496499,"tv0":0.004153379,"tv1":-0.0039775968,"x":0.7,"y":0.8,},
         {"th0":-0.02346152,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":1.0,},
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
     {"$GMAnimCurveChannel":"","%Name":"bump_xScale","colour":4279234797,"name":"bump_xScale","points":[
         {"th0":-0.1,"th1":0.039081898,"tv0":0.0,"tv1":0.0,"x":0.0,"y":1.0,},
         {"th0":-0.1,"th1":0.1492564,"tv0":0.0,"tv1":0.0,"x":0.1,"y":1.08,},
-        {"th0":-0.09999999,"th1":0.13278013,"tv0":0.0009799426,"tv1":-0.0013011694,"x":0.3,"y":0.8,},
+        {"th0":-0.099999994,"th1":0.13278013,"tv0":0.00097996,"tv1":-0.0013011923,"x":0.3,"y":0.8,},
         {"th0":-0.02645868,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":1.0,},
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
     {"$GMAnimCurveChannel":"","%Name":"bump_yScale","colour":4279234797,"name":"bump_yScale","points":[
@@ -39,16 +39,16 @@
         {"th0":-0.15366268,"th1":0.1,"tv0":0.009024691,"tv1":0.0,"x":1.0,"y":0.0,},
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
     {"$GMAnimCurveChannel":"","%Name":"iceContinue_xScale","colour":4293475502,"name":"iceContinue_xScale","points":[
-        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.0,"y":0.92,},
-        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":0.92,},
+        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.0,"y":0.8,},
+        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":0.8,},
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
     {"$GMAnimCurveChannel":"","%Name":"iceContinue_yScale","colour":4293475502,"name":"iceContinue_yScale","points":[
-        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.0,"y":1.08,},
-        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":1.08,},
+        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.0,"y":1.2,},
+        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":1.2,},
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
     {"$GMAnimCurveChannel":"","%Name":"iceContinue_rotation","colour":4293475502,"name":"iceContinue_rotation","points":[
-        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.0,"y":10.0,},
-        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":10.0,},
+        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":0.0,"y":20.0,},
+        {"th0":-0.1,"th1":0.1,"tv0":0.0,"tv1":0.0,"x":1.0,"y":20.0,},
       ],"resourceType":"GMAnimCurveChannel","resourceVersion":"2.0","visible":true,},
   ],
   "function":2,

@@ -1,14 +1,117 @@
-// 1. Define your normal target frame rate
-var _normal_fps = 60;
-var _slow_fps = 15; // 15 FPS = 4x slowdown (draws on 4s)
 
-// 2. Check if your debug key is held (e.g., TAB or CONTROL)
-if (keyboard_check(vk_tab)) {
-    // Slow down game execution
-    game_set_speed(_slow_fps, gamespeed_fps);
-} else {
-    // Restore normal execution speed
-    game_set_speed(_normal_fps, gamespeed_fps);
+
+if (room != DefaultRoom){
+    // 1. Define your normal target frame rate
+    var _normal_fps = 60;
+    var _slow_fps = 15; // 15 FPS = 4x slowdown (draws on 4s)
+    
+    // 2. Check if your debug key is held (e.g., TAB or CONTROL)
+    if (keyboard_check(vk_tab)) {
+        // Slow down game execution
+        game_set_speed(_slow_fps, gamespeed_fps);
+    } else {
+        // Restore normal execution speed
+        game_set_speed(_normal_fps, gamespeed_fps);
+    }
+    
+    var playerCount = player.in_use + copyPlayer.in_use;
+    if (playerCount >= 1){
+        var has_other_meter = false;
+        var is_left = true;
+        if (playerCount == 2){
+            has_other_meter = true;
+            drawSlimeMeter(copyPlayer, has_other_meter, !is_left, copyPlayerStepsMeter, meterUpdateTimer, copyPlayerGrowing, copyPlayerShrinking);
+        }
+        var meterOwner = player;
+        var stepsVar = playerStepsMeter;
+        var growingVar = playerGrowing;
+        var shrinkingVar = playerShrinking;
+        if (!player.in_use and copyPlayer.in_use){
+            meterOwner = copyPlayer;
+            stepsVar = copyPlayerStepsMeter;
+            growingVar = copyPlayerGrowing;
+            shrinkingVar = copyPlayerShrinking;
+        }
+        drawSlimeMeter(meterOwner, has_other_meter, is_left, stepsVar, meterUpdateTimer, growingVar, shrinkingVar);
+        
+        if (meterUpdateTimer == 0){
+            if (playerStepsMeter < player.steps) { 
+                playerStepsMeter++;
+                playerGrowing = true;
+                playerShrinking = false;
+            }
+            else if (playerStepsMeter > player.steps) { 
+                playerStepsMeter--; 
+                playerGrowing = false;
+                playerShrinking = true;
+            }
+            else {
+                playerGrowing = false;
+                playerShrinking = false;
+            }
+            
+            if (copyPlayerStepsMeter < copyPlayer.steps) { 
+                copyPlayerStepsMeter++;
+                copyPlayerGrowing = true;
+                copyPlayerShrinking = false;
+            }
+            else if (copyPlayerStepsMeter > copyPlayer.steps) { 
+                copyPlayerStepsMeter--; 
+                copyPlayerGrowing = false;
+                copyPlayerShrinking = true;
+            }
+            else {
+                copyPlayerGrowing = false;
+                copyPlayerShrinking = false;
+            }
+            
+            meterUpdateTimer = meterUpdateTime;
+        }
+        if (meterUpdateTimer > 0){
+            meterUpdateTimer--;
+        }
+    }
+    
+    
+    if (room == Room1) {
+        draw_text(view_wport/2, 200, "Move with WASD or Arrow Keys")
+    }
+    if (room == Room5) {
+        draw_text(view_wport/2, 200, "Press R to restart the level at any time")
+    }
+    
+    //if (room == Room6 or room == Room7 or room == Room8) {
+    //    draw_text(view_wport/2, 200, player.is_slipping);
+    //}
+    
+    
+    if (roomNum < 10){
+        tilemap_set(_overlay_tilemap_id, getTileIdOfDigit(roomNumOnes), roomLabelTileCoords[0], roomLabelTileCoords[1]);
+    }
+    else { 
+        draw_sprite_part_ext(
+            tileset_sprite, 0, 
+            roomNumTens*TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, 
+            roomLabelTileCoords[0]*TILE_HEIGHT + (TILE_HEIGHT * 1 / 2), roomLabelTileCoords[1]*TILE_HEIGHT + TILE_HEIGHT,
+            2, 2, c_white, 1
+        );
+        draw_sprite_part_ext(
+            tileset_sprite, 0, 
+            roomNumOnes*TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, 
+            roomLabelTileCoords[0]*TILE_HEIGHT + (TILE_HEIGHT * 3 / 2), roomLabelTileCoords[1]*TILE_HEIGHT + TILE_HEIGHT,
+            2, 2, c_white, 1
+        );
+    }
+    
+    if (roomFailed) {
+        displayTextWithOverlay("Failure. Press R to restart.")
+    }
+    if (roomFinished) {
+        displayTextWithOverlay("Success! Press F to continue.")
+    }    
+}
+else {
+    displayTextWithOverlay("You beat all the levels in this beta! Thanks for playing! \n\n Press R to go to level 1. \n\n Press B and input a room number to go to any level");
 }
 
 if (room_jump_debug_on) {
@@ -42,105 +145,4 @@ if (room_jump_debug_on) {
     if (keyboard_check_pressed(vk_escape)) {
         room_jump_debug_on = false
     }
-}
-
-if (room == DefaultRoom){
-    displayTextWithOverlay("You beat all the levels in this beta! Thanks for playing! \n\n Press R to go to level 1. \n\n Press B and input a room number to go to any level")
-    return
-}
-
-var playerCount = player.in_use + copyPlayer.in_use;
-if (playerCount >= 1){
-    var has_other_meter = false;
-    var is_left = true;
-    if (playerCount == 2){
-        has_other_meter = true;
-        drawSlimeMeter(copyPlayer, has_other_meter, !is_left, copyPlayerStepsMeter, meterUpdateTimer, copyPlayerGrowing, copyPlayerShrinking);
-    }
-    var meterOwner = player;
-    var stepsVar = playerStepsMeter;
-    var growingVar = playerGrowing;
-    var shrinkingVar = playerShrinking;
-    if (!player.in_use and copyPlayer.in_use){
-        meterOwner = copyPlayer;
-        stepsVar = copyPlayerStepsMeter;
-        growingVar = copyPlayerGrowing;
-        shrinkingVar = copyPlayerShrinking;
-    }
-    drawSlimeMeter(meterOwner, has_other_meter, is_left, stepsVar, meterUpdateTimer, growingVar, shrinkingVar);
-    
-    if (meterUpdateTimer == 0){
-        if (playerStepsMeter < player.steps) { 
-            playerStepsMeter++;
-            playerGrowing = true;
-            playerShrinking = false;
-        }
-        else if (playerStepsMeter > player.steps) { 
-            playerStepsMeter--; 
-            playerGrowing = false;
-            playerShrinking = true;
-        }
-        else {
-            playerGrowing = false;
-            playerShrinking = false;
-        }
-        
-        if (copyPlayerStepsMeter < copyPlayer.steps) { 
-            copyPlayerStepsMeter++;
-            copyPlayerGrowing = true;
-            copyPlayerShrinking = false;
-        }
-        else if (copyPlayerStepsMeter > copyPlayer.steps) { 
-            copyPlayerStepsMeter--; 
-            copyPlayerGrowing = false;
-            copyPlayerShrinking = true;
-        }
-        else {
-            copyPlayerGrowing = false;
-            copyPlayerShrinking = false;
-        }
-        
-        meterUpdateTimer = meterUpdateTime;
-    }
-    if (meterUpdateTimer > 0){
-        meterUpdateTimer--;
-    }
-}
-
-
-if (room == Room1) {
-    draw_text(view_wport/2, 200, "Move with the W, A, S, D keys")
-}
-if (room == Room5) {
-    draw_text(view_wport/2, 200, "Press R to restart the level at any time.")
-}
-
-//if (room == Room6 or room == Room7 or room == Room8) {
-//    draw_text(view_wport/2, 200, player.is_slipping);
-//}
-
-
-if (roomNum < 10){
-    tilemap_set(_overlay_tilemap_id, getTileIdOfDigit(roomNumOnes), roomLabelTileCoords[0], roomLabelTileCoords[1]);
-}
-else { 
-    draw_sprite_part_ext(
-        tileset_sprite, 0, 
-        roomNumTens*TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, 
-        roomLabelTileCoords[0]*TILE_HEIGHT + (TILE_HEIGHT * 1 / 2), roomLabelTileCoords[1]*TILE_HEIGHT + TILE_HEIGHT,
-        2, 2, c_white, 1
-    );
-    draw_sprite_part_ext(
-        tileset_sprite, 0, 
-        roomNumOnes*TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT, 
-        roomLabelTileCoords[0]*TILE_HEIGHT + (TILE_HEIGHT * 3 / 2), roomLabelTileCoords[1]*TILE_HEIGHT + TILE_HEIGHT,
-        2, 2, c_white, 1
-    );
-}
-
-if (roomFailed) {
-    displayTextWithOverlay("Failure. Press R to restart.")
-}
-if (roomFinished) {
-    displayTextWithOverlay("Success! Press F to continue.")
 }

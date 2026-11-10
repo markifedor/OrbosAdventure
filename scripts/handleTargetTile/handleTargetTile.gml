@@ -132,7 +132,7 @@ function handleTargetTile(controller, player){
         }
         
         // Handle Level Finish
-        if (overlayExists and !is_undefined(overlayProps[$ "finish"]) and overlayProps[$ "finish"]){
+        if (player.steps > 0 and overlayExists and !is_undefined(overlayProps[$ "finish"]) and overlayProps[$ "finish"]){
             controller.roomFinished = true;
             targetTile = variable_clone(targetTile);
             props[$ "convertOnIn"] = overlayProps[$ "convertOnIn"]

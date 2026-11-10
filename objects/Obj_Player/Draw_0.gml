@@ -2,7 +2,10 @@ if (!in_use) { return; }
 
 var _target_fps = game_get_speed(gamespeed_fps);
 
-if (is_dying or is_wall_bumping){
+if (steps < 2){
+    face_sprite = spr_face_smol;
+}
+else if (is_dying or is_wall_bumping){
     face_sprite = spr_face_pain;
 }
 else if (is_slipping){
@@ -29,19 +32,24 @@ if (!is_moving) {
     _draw_y = y + _y_offset;
 }
 
-var outlineSize = 2;
-if (radius < 8) {
-    outlineSize = 1.5;
-}
-if (radius < 6) {
-    outlineSize = 1;
-}
+var outlineSize;
+if (radius < 8) { outlineSize = 1; }
+else { outlineSize = 2; }
 
 var _max_scale = 1 + (squishiness * 2);
-var _max_radius = (radius + outlineSize) * _max_scale;
+var _max_radius = ceil((radius + outlineSize) * _max_scale);
 
-var _surf_size = ceil(_max_radius * 2) + 8;
-var _center = _surf_size * 0.5;
+// 2. Explicitly measure the face sprite dimensions (not the object sprite!)
+var _face_w = sprite_get_width(face_sprite);
+var _face_h = sprite_get_height(face_sprite);
+
+// 3. Ensure surface size provides ample margin so rotated face bounds never hit X = 0 or X = _surf_size
+var _calculated_size = max(_max_radius * 2, _face_w, _face_h) + 24;
+var _raw_size = max(32, _calculated_size);
+
+// Force surf_size to be an even integer
+var _surf_size = (_raw_size mod 2 == 0) ? _raw_size : _raw_size + 1;
+var _center_x = _surf_size div 2;
 
 if (!surface_exists(slime_surf) || surface_get_width(slime_surf) < _surf_size) {
     if (surface_exists(slime_surf)) {
@@ -50,7 +58,7 @@ if (!surface_exists(slime_surf) || surface_get_width(slime_surf) < _surf_size) {
     slime_surf = surface_create(_surf_size, _surf_size);
 }
 
-// 2. Render circles with bottom edge aligned to bottom padding
+// 4. Target Surface Rendering
 surface_set_target(slime_surf);
 draw_clear_alpha(c_black, 0);
 
@@ -59,38 +67,33 @@ var draw_outline_color = orboColors[0];
 var draw_main_color    = orboColors[1];
 var draw_outer_color   = orboColors[2];
 
-var _bottom_y = _surf_size - outlineSize - 2;
+// Anchored bottom floor line
+var _bottom_y = _surf_size - outlineSize - 4;
+var _circle_y = _bottom_y - radius;
 
 draw_set_color(draw_outline_color);
-draw_circle(_center, _bottom_y - radius, radius + outlineSize, false);
+draw_circle(_center_x, _circle_y, radius + outlineSize, false);
+draw_circle_colour(_center_x, _circle_y, radius, draw_main_color, draw_outer_color, false);
 
-draw_circle_colour(_center, _bottom_y - radius, radius, draw_main_color, draw_outer_color, false);
+if (array_equals(dir, [ 1, 0])) { face_rot = 90;  }
+if (array_equals(dir, [ 0, 1])) { face_rot = 0;   }
+if (array_equals(dir, [-1, 0])) { face_rot = 270; }
+if (array_equals(dir, [ 0,-1])) { face_rot = 180; }
 
-if (steps > 1) {
-    if (array_equals(dir, [1, 0])) { face_rot = 90; }
-    if (array_equals(dir, [0, 1])) { face_rot = 0; }
-    if (array_equals(dir, [-1, 0])) { face_rot = 270; }
-    if (array_equals(dir, [0, -1])) { face_rot = 180;}
-    
-    draw_sprite_ext(face_sprite, 0, _center, _bottom_y-radius*2/3, 1, 1, face_rot, c_white, 1);
-}
-else{
-    draw_point_colour(_center-2, _bottom_y-radius*2/3, c_black);
-    draw_point_colour(_center+2, _bottom_y-radius*2/3, c_black);
-}
+// Integer Y anchor for face sprite
+var face_y = _bottom_y - (radius * 2 div 3);
+
+draw_sprite_ext(face_sprite, 0, _center_x, face_y, 1, 1, face_rot, c_white, 1);
+
 surface_reset_target();
+draw_set_color(c_white);
 
-// 3. Transform surface using GPU Matrix (anchors pivot directly to bottom floor pixel)
-
-// Save current world matrix
+// 5. GPU Matrix World Transform
 var _matrix_prev = matrix_get(matrix_world);
 
-// Build matrix: Move pivot (_center, _bottom_y) to (0,0), apply scale/rotation, then translate to room (x, _draw_y)
-var _matrix_transform = matrix_build(x, _draw_y, 0, 0, 0, _rotation, _xScale, _yScale, 1);
+var _matrix_transform = matrix_build(x, _draw_y, 0, 0, 0, _rotation*2, _xScale, _yScale, 1);
 matrix_set(matrix_world, _matrix_transform);
 
-// Draw surface relative to local pivot (0,0)
-draw_surface(slime_surf, -_center, -_bottom_y);
+draw_surface(slime_surf, -_center_x, -_bottom_y);
 
-// Restore original world matrix
 matrix_set(matrix_world, _matrix_prev);

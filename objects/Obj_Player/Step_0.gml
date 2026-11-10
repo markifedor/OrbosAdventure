@@ -14,20 +14,20 @@ if (steps == 0) {
 
 // Proccess inputs and add to buffer
 if (!controller.roomFinished and !controller.roomFailed) {
-    var dirPressed = [ 
-        keyboard_check_released(ord("D")) - keyboard_check_released(ord("A")),
-        keyboard_check_released(ord("S")) - keyboard_check_released(ord("W"))
-    ];
-   
-    if (!array_equals(dirPressed, [0, 0])) {
-        if (dirPressed[0] != 0 and dirPressed[1] != 0){
-            ds_queue_enqueue(moveBuffer, [dirPressed[0], 0]);
-            ds_queue_enqueue(moveBuffer, [0, dirPressed[1]]);
-        }
-        else {
-            ds_queue_enqueue(moveBuffer, dirPressed);
-        }
-        show_debug_message($"Inputted {dirPressed}");
+    if (keyboard_check_released(ord("D")) or keyboard_check_released(vk_right)) {
+        ds_queue_enqueue(moveBuffer, [1, 0]);
+    }
+    
+    if (keyboard_check_released(ord("A")) or keyboard_check_released(vk_left)) {
+        ds_queue_enqueue(moveBuffer, [-1, 0]);
+    }
+    
+    if (keyboard_check_released(ord("W")) or keyboard_check_released(vk_up)) {
+        ds_queue_enqueue(moveBuffer, [0, -1]);
+    }
+    
+    if (keyboard_check_released(ord("S")) or keyboard_check_released(vk_down)) {
+        ds_queue_enqueue(moveBuffer, [0, 1]);
     }
 }
 

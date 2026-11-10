@@ -1,6 +1,6 @@
 main_color = #09f2a0;
-outer_color = color_shift_hsv(main_color, 5, 5, -40);
-outline_color = color_shift_hsv(main_color, 8, 7, -75);
+outer_color = color_shift_hsv(main_color, 5, 5, -50);
+outline_color = color_shift_hsv(main_color, 8, 7, -85);
 
 _tile_height = -1;
 _room_width = -1;

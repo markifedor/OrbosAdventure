@@ -1,8 +1,15 @@
 function drawSlimeMeter(player, has_other_meter, is_left, steps, timer, growing, shrinking){
-    c_high_level = #25967F;
-    c_medium_high_level = #ADB70B;
-    c_medium_level = #AF7C16;
-    c_low_level = #B23817;
+    var c_high_level = #41a38f;
+    var lower_level_offset = 75;
+    var hueDir = -1;
+    if (player.is_fiery){
+        c_high_level = #5a99d8;
+        lower_level_offset = 20;
+        hueDir = 1;
+    }
+    var c_medium_high_level = color_shift_hsv(c_high_level, hueDir*lower_level_offset, 0, 0);
+    var c_medium_level = color_shift_hsv(c_high_level, hueDir*(lower_level_offset+25), 0, 0);
+    var c_low_level = color_shift_hsv(c_high_level, hueDir*(lower_level_offset+50), 0, 0);
     
     var x_pos = view_wport/2;
     
@@ -24,7 +31,7 @@ function drawSlimeMeter(player, has_other_meter, is_left, steps, timer, growing,
     }
     
     var orboColors = getOrboColors(player);
-    var draw_outline_color = color_shift_hsv(orboColors[0], 0, 0, -20);
+    var draw_outline_color = color_shift_hsv(orboColors[0], 0, 0, -30);
     var draw_main_color    = orboColors[1];
     var draw_outer_color   = orboColors[2];
     
@@ -35,7 +42,6 @@ function drawSlimeMeter(player, has_other_meter, is_left, steps, timer, growing,
     draw_circle(x_pos, 107, backgroundSize, false);
     draw_circle_colour(x_pos, 107, backgroundSize-8, draw_main_color, draw_outer_color, false);
     draw_set_circle_precision(16);
-    draw_set_color(c_white);
     
     // Draw Number
     

@@ -44,6 +44,7 @@
         "properties": {
             "stepsIn": -1,
             "slimedIn": true,
+            "slimedInFiery": true,
             "slimedOut": false
         }
     },
@@ -52,9 +53,16 @@
         "name": "finish",
         "look": 2,
         "properties": {
-            "convertOnIn": "wF",
+            "convertOnIn": "fL",
             "convertOnInFiery": "OF",
             "overlay": true,
+            "finish": true
+        }
+    },
+    "f": {
+        "name": "finished",
+        "look": 10,
+        "properties": {
             "finish": true
         }
     },
